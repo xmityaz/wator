@@ -1,0 +1,33 @@
+{
+  "name": "xtetriz",
+  "version": "1.0.0",
+  "description": "Let me recall canvas stuff",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "build": "webpack --mode development",
+    "start": "webpack-dev-server --mode development"
+  },
+  "keywords": [
+    "testris",
+    "canvas"
+  ],
+  "author": "xmityaz",
+  "license": "ISC",
+  "dependencies": {
+    "pixi.js": "^4.7.1",
+    "ts-lib": "0.0.5",
+    "tslib": "^1.9.3"
+  },
+  "devDependencies": {
+    "@types/pixi.js": "^4.7.2",
+    "css-loader": "^0.28.11",
+    "file-loader": "^1.1.11",
+    "style-loader": "^0.20.3",
+    "ts-loader": "^4.1.0",
+    "typescript": "^2.8.1",
+    "webpack": "^4.4.1",
+    "webpack-cli": "^2.0.13",
+    "webpack-dev-server": "^3.1.1"
+  }
+}

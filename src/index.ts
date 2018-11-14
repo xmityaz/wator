@@ -1,25 +1,34 @@
 import '../index.html';
-import {Playground} from './playground';
-import {Config, initializePetMap, processDay} from './logic';
+import {Config, Game} from './game';
 
 const testConfig: Config = {
   boardSize: {width: 120, height: 120},
 
-  fishReproducingRate: 15,
-  startFishNumber: 300,
+  evolutionParams: {
+    fishReproducingRate: 15,
+    sharkReproducingRate: 15,
+    sharkMaxEnergy: 10,
+    gameSpeed: 50
+  },
 
-  sharkReproducingRate: 15,
-  sharkMaxEnergy: 10,
-  startSharkNumber: 505
+  startParams: {
+    startFishNumber: 300,
+    startSharkNumber: 505
+  }
 };
 
-const playground = new Playground(testConfig);
+const game = new Game(testConfig);
+game.play();
 
-const petMap = initializePetMap(testConfig);
+// Work with DOM controls
 
-function step() {
-  playground.drawPetMap(petMap);
-  processDay(petMap, testConfig);
-}
+const startButton = document.getElementById('start-button');
+const resetButton = document.getElementById('reset-button');
 
-setInterval(() => requestAnimationFrame(step), 50);
+startButton.addEventListener('click', () => {
+  game.isRunning ? game.pause() : game.play();
+});
+
+resetButton.addEventListener('click', () => {
+  game.reset();
+})

@@ -1,3 +1,5 @@
+import {Config} from './game';
+
 type Fish = {
   cyclesSinceReproduce: number;
 };
@@ -10,19 +12,6 @@ type Shark = {
 export type Pet = Fish | Shark;
 
 export type PetMap = {[position: string]: Pet}; // {['0,1': {cyclesSinceReproduce: 2}]}
-
-type BoardSize = {width: number; height: number};
-
-export type Config = {
-  boardSize: BoardSize;
-
-  fishReproducingRate: number;
-  startFishNumber: number;
-
-  sharkReproducingRate: number;
-  sharkMaxEnergy: number;
-  startSharkNumber: number;
-};
 
 export function isFish(pet: Pet) {
   return typeof (pet as Shark).energy === 'undefined';
@@ -38,19 +27,18 @@ function getRandomEl(arr: any[]) {
 }
 
 function getNeighbourPositions(initX: number, initY: number, {boardSize}: Config): string[] {
-  return [[initX + 1, initY], [initX - 1, initY], [initX, initY + 1], [initX, initY - 1]]
-    .map(([x, y]) => {
-      if (x < 0) {
-        return `${boardSize.width - 1},${y}`;
-      } else if (x >= boardSize.width) {
-        return `0,${y}`;
-      } else if (y < 0) {
-        return `${x},${boardSize.height - 1}`;
-      } else if (y >= boardSize.height) {
-        return `${x},0`;
-      }
-      return `${x}, ${y}`;
-    });
+  return [[initX + 1, initY], [initX - 1, initY], [initX, initY + 1], [initX, initY - 1]].map(([x, y]) => {
+    if (x < 0) {
+      return `${boardSize.width - 1},${y}`;
+    } else if (x >= boardSize.width) {
+      return `0,${y}`;
+    } else if (y < 0) {
+      return `${x},${boardSize.height - 1}`;
+    } else if (y >= boardSize.height) {
+      return `${x},0`;
+    }
+    return `${x}, ${y}`;
+  });
 }
 
 function moveToRandomPosition(positions: string[], petMap: PetMap, currentPosition: string): string {
@@ -79,10 +67,12 @@ function processPetReproduce(
   positionToThrowCaviarIn: string,
   position: string,
   reproduce: () => Fish | Shark,
-  config: Config
+  {evolutionParams}: Config
 ) {
   const pet = petMap[position];
-  const reproducingRate = isFish(pet) ? config.fishReproducingRate : config.sharkReproducingRate;
+  const reproducingRate = isFish(pet)
+    ? evolutionParams.fishReproducingRate
+    : evolutionParams.sharkReproducingRate;
 
   if (pet.cyclesSinceReproduce >= reproducingRate && positionToThrowCaviarIn !== position) {
     petMap[positionToThrowCaviarIn] = reproduce();
@@ -100,7 +90,7 @@ function processSharkMove(petMap: PetMap, position: string, config: Config): str
 
   if (neighboarFishPositions.length > 0) {
     const newPosition = moveToRandomPosition(neighboarFishPositions, petMap, position);
-    shark.energy = config.sharkMaxEnergy;
+    shark.energy = config.evolutionParams.sharkMaxEnergy;
 
     return newPosition;
   } else if (shark.energy === 0) {
@@ -112,7 +102,7 @@ function processSharkMove(petMap: PetMap, position: string, config: Config): str
   return processFishMove(petMap, position, config);
 }
 
-export function initializePetMap({startFishNumber, startSharkNumber, boardSize, sharkMaxEnergy}: Config) {
+export function initializePetMap({startParams, boardSize, evolutionParams}: Config) {
   const a = (counter: number, petMap: PetMap = {}): PetMap => {
     if (counter === 0) {
       return petMap;
@@ -129,13 +119,13 @@ export function initializePetMap({startFishNumber, startSharkNumber, boardSize, 
     return a(counter - 1, {
       ...petMap,
       [position]:
-        counter <= startSharkNumber
-          ? {cyclesSinceReproduce: 0, energy: sharkMaxEnergy}
+        counter <= startParams.startSharkNumber
+          ? {cyclesSinceReproduce: 0, energy: evolutionParams.sharkMaxEnergy}
           : {cyclesSinceReproduce: 0}
     });
   };
 
-  return a(startFishNumber + startSharkNumber);
+  return a(startParams.startFishNumber + startParams.startSharkNumber);
 }
 
 export function processDay(petMap: PetMap, config: Config) {
@@ -157,7 +147,7 @@ export function processDay(petMap: PetMap, config: Config) {
         petMap,
         position,
         newPosition,
-        () => ({cyclesSinceReproduce: 0, energy: config.sharkMaxEnergy}),
+        () => ({cyclesSinceReproduce: 0, energy: config.evolutionParams.sharkMaxEnergy}),
         config
       );
     }

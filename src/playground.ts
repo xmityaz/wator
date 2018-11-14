@@ -1,4 +1,5 @@
-import {Pet, isFish, PetMap, parsePosition, Config} from './logic';
+import {Pet, isFish, PetMap, parsePosition} from './logic';
+import {Config} from './game';
 
 export const BRICK_SIZE = {WIDTH: 4, HEIGHT: 4};
 
@@ -11,13 +12,12 @@ export class Playground {
     this.ctx.fillRect(x * BRICK_SIZE.WIDTH, y * BRICK_SIZE.HEIGHT, BRICK_SIZE.WIDTH, BRICK_SIZE.HEIGHT);
   };
 
-
-  constructor(config: Config) {
+  constructor({boardSize}: Config) {
     this.canvas = document.getElementById('ocean') as HTMLCanvasElement;
-    this.ctx = this.canvas.getContext('2d')
-    
-    this.canvas.width = config.boardSize.width * BRICK_SIZE.WIDTH;
-    this.canvas.height = config.boardSize.height * BRICK_SIZE.WIDTH;
+    this.ctx = this.canvas.getContext('2d');
+
+    this.canvas.width = boardSize.width * BRICK_SIZE.WIDTH;
+    this.canvas.height = boardSize.height * BRICK_SIZE.WIDTH;
   }
 
   clear = () => {

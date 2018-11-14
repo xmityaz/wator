@@ -14,13 +14,9 @@
   ],
   "author": "xmityaz",
   "license": "ISC",
-  "dependencies": {
-    "pixi.js": "^4.7.1",
-    "ts-lib": "0.0.5",
-    "tslib": "^1.9.3"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@types/pixi.js": "^4.7.2",
+    "tslib": "^1.9.3",
     "css-loader": "^0.28.11",
     "file-loader": "^1.1.11",
     "style-loader": "^0.20.3",

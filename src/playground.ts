@@ -1,31 +1,27 @@
-import * as PIXI from 'pixi.js';
 import {Pet, isFish, PetMap, parsePosition, Config} from './logic';
 
-export const BRICK_SIZE = {WIDTH: 5, HEIGHT: 5};
+export const BRICK_SIZE = {WIDTH: 4, HEIGHT: 4};
 
 export class Playground {
-  private graphics: PIXI.Graphics;
+  private ctx: CanvasRenderingContext2D;
+  private canvas: HTMLCanvasElement;
 
-  private drawRectangleOnTetrisGrid = (x = 0, y = 0, color = 0x0000ff) => {
-    this.graphics.lineStyle(0, color, 1);
-    this.graphics.beginFill(color, 1);
-    this.graphics.drawRect(x * BRICK_SIZE.WIDTH, y * BRICK_SIZE.HEIGHT, BRICK_SIZE.WIDTH, BRICK_SIZE.HEIGHT);
-    this.graphics.endFill();
+  private drawRectangleOnTetrisGrid = (x = 0, y = 0, color = '#0000ff') => {
+    this.ctx.fillStyle = color;
+    this.ctx.fillRect(x * BRICK_SIZE.WIDTH, y * BRICK_SIZE.HEIGHT, BRICK_SIZE.WIDTH, BRICK_SIZE.HEIGHT);
   };
 
-  container: PIXI.Container;
 
   constructor(config: Config) {
-    this.container = new PIXI.Container();
-    this.graphics = new PIXI.Graphics();
-
-    this.container.width = config.boardSize.width * BRICK_SIZE.WIDTH;
-    this.container.height = config.boardSize.height * BRICK_SIZE.HEIGHT;
-    this.container.addChild(this.graphics);
+    this.canvas = document.getElementById('ocean') as HTMLCanvasElement;
+    this.ctx = this.canvas.getContext('2d')
+    
+    this.canvas.width = config.boardSize.width * BRICK_SIZE.WIDTH;
+    this.canvas.height = config.boardSize.height * BRICK_SIZE.WIDTH;
   }
 
   clear = () => {
-    this.graphics.clear();
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   };
 
   drawPetMap = (petMap: PetMap) => {
@@ -39,7 +35,7 @@ export class Playground {
   };
 
   private drawPet = (pet: Pet, x: number, y: number) => {
-    const color = isFish(pet) ? 0x0000ff : 0xff0000;
+    const color = isFish(pet) ? '#0000ff' : '#ff0000';
     this.drawRectangleOnTetrisGrid(x, y, color);
   };
 }

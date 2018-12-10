@@ -2,7 +2,7 @@ import '../index.html';
 import {Config, Game} from './game';
 
 const testConfig: Config = {
-  boardSize: {width: 120, height: 120},
+  boardSize: {width: 150, height: 150},
 
   evolutionParams: {
     fishReproducingRate: 15,
@@ -12,8 +12,8 @@ const testConfig: Config = {
   },
 
   startParams: {
-    startFishNumber: 300,
-    startSharkNumber: 505
+    startFishNumber: 1000,
+    startSharkNumber: 1000
   }
 };
 

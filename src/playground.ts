@@ -1,4 +1,4 @@
-import {Pet, isFish, PetMap, parsePosition} from './logic';
+import {isFish, PetMap} from './logic';
 import {Config} from './game';
 
 export const BRICK_SIZE = {WIDTH: 4, HEIGHT: 4};
@@ -7,9 +7,14 @@ export class Playground {
   private ctx: CanvasRenderingContext2D;
   private canvas: HTMLCanvasElement;
 
-  private drawRectangleOnTetrisGrid = (x = 0, y = 0, color = '#0000ff') => {
+  private drawRect = (x = 0, y = 0, height: number, color = '#0000ff') => {
     this.ctx.fillStyle = color;
-    this.ctx.fillRect(x * BRICK_SIZE.WIDTH, y * BRICK_SIZE.HEIGHT, BRICK_SIZE.WIDTH, BRICK_SIZE.HEIGHT);
+    this.ctx.fillRect(
+      x * BRICK_SIZE.WIDTH,
+      y * BRICK_SIZE.HEIGHT,
+      BRICK_SIZE.WIDTH,
+      BRICK_SIZE.HEIGHT * height
+    );
   };
 
   constructor({boardSize}: Config) {
@@ -24,18 +29,33 @@ export class Playground {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   };
 
-  drawPetMap = (petMap: PetMap) => {
+  drawPetMap = (petMap: PetMap, {boardSize}: Config) => {
     this.clear();
-    const positions = Object.keys(petMap);
 
-    positions.forEach(position => {
-      const pos = parsePosition(position);
-      this.drawPet(petMap[position], pos.x, pos.y);
-    });
-  };
+    for (let x = 0; x < boardSize.width; x++) {
+      let activeShape: {y: number; height: number; type?: string} = {y: 0, type: undefined, height: 0};
+      
+      for (let y = 0; y < boardSize.height; y++) {
 
-  private drawPet = (pet: Pet, x: number, y: number) => {
-    const color = isFish(pet) ? '#0000ff' : '#ff0000';
-    this.drawRectangleOnTetrisGrid(x, y, color);
+        const pet = petMap[`${x},${y}`];
+        const type = pet ? (isFish(pet) ? 'fish' : 'shark') : undefined;
+
+        if (type === activeShape.type) {
+          activeShape.height++;
+        } else {
+          if (activeShape.type) {
+            const color = activeShape.type === 'fish' ? '#0000ff' : '#ff0000';
+            this.drawRect(x, activeShape.y, activeShape.height, color);
+          }
+
+          activeShape = {type, y, height: 1};
+        }
+      }
+
+      if (activeShape.type) {
+        const color = activeShape.type === 'fish' ? '#0000ff' : '#ff0000';
+        this.drawRect(x, activeShape.y, activeShape.height, color);
+      }
+    }
   };
 }

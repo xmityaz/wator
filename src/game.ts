@@ -28,7 +28,7 @@ export class Game {
   private gameLoop: number;
 
   private step = () => {
-    this.playground.drawPetMap(this.petMap);
+    this.playground.drawPetMap(this.petMap, this.config);
     processDay(this.petMap, this.config);
   };
 

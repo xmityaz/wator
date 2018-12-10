@@ -37,7 +37,7 @@ function getNeighbourPositions(initX: number, initY: number, {boardSize}: Config
     } else if (y >= boardSize.height) {
       return `${x},0`;
     }
-    return `${x}, ${y}`;
+    return `${x},${y}`;
   });
 }
 

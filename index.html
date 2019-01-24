@@ -1,20 +1,93 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>wator</title>
+  </head>
 
-<head>
-  <title>wator</title>
-</head>
+  <body>
+    <div id="root">
+      <div id="ocean-wrapper">
+        <canvas id="ocean"></canvas>
 
-<body>
-  <div id="root">
-    <canvas id="ocean"></canvas>
+        <div id="ocean-overlay">
+          <div id="initial-controls">
+            <div class="control-inputs">
+              <div class="input-group">
+                <label for="startFishNumber">Fish number at start</label>
+                <input
+                  type="number"
+                  min="5"
+                  max="100"
+                  value="90"
+                  name="startFishNumber"
+                  id="start-fish-number"
+                />
+              </div>
+              <div class="input-group">
+                <label for="startSharkNumber">Shark number at start</label>
+                <input
+                  type="number"
+                  min="5"
+                  max="100"
+                  value="90"
+                  name="startSharkNumber"
+                  id="start-shark-number"
+                />
+              </div>
+            </div>
+          </div>
 
-    <div class="controls">
-      <button id="start-button">Start</button>
-      <button id="reset-button">Reset</button>
+          <div class="control-buttons">
+            <button id="start-button">Start</button>
+            <!-- <button id="reset-button">Reset</button> -->
+          </div>
+        </div>
+
+        <div id="pause-overlay">
+          <div id="pause">
+            <div class="pause-stick"></div>
+            <div class="pause-stick"></div>
+          </div>
+
+          <div id="stop"></div>
+        </div>
+      </div>
+
+      <form id="evolution-controls">
+        <div class="control-inputs">
+          <div class="input-group">
+            <label for="fishReproducingRate">Fish caviar throwing</label>
+            <input
+              type="number"
+              min="5"
+              max="100"
+              value="15"
+              name="fishReproducingRate"
+              id="fishReproducingRate"
+            />
+          </div>
+          <div class="input-group">
+            <label for="sharkReproducingRate">Shark pregnancy rate</label>
+            <input
+              type="number"
+              min="5"
+              max="100"
+              value="15"
+              name="sharkReproducingRate"
+              id="sharkReproducingRate"
+            />
+          </div>
+          <div class="input-group">
+            <label for="sharkMaxEnergy">Shark energy</label>
+            <input type="number" min="5" max="50" value="10" name="sharkMaxEnergy" id="sharkMaxEnergy" />
+          </div>
+          <div class="input-group">
+            <label for="gameSpeed">Game speed</label>
+            <input type="number" min="20" max="1000" value="50" name="gameSpeed" id="gameSpeed" />
+          </div>
+        </div>
+      </form>
     </div>
-  </div>
-  <script src="./bundle.js"></script>
-</body>
-
+    <script src="./bundle.js"></script>
+  </body>
 </html>

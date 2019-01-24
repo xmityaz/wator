@@ -2,14 +2,14 @@ import {Playground} from './playground';
 import {PetMap, initializePetMap, processDay} from './logic';
 
 type BoardSize = {width: number; height: number};
-type EvolutionParams = {
+export type EvolutionParams = {
   fishReproducingRate: number;
   sharkReproducingRate: number;
   sharkMaxEnergy: number;
 
   gameSpeed: number;
 };
-type StartParams = {
+export type StartParams = {
   startFishNumber: number;
   startSharkNumber: number;
 };
@@ -48,14 +48,22 @@ export class Game {
     this.gameLoop = setInterval(() => requestAnimationFrame(this.step), this.gameSpeed);
   };
 
-  reset = (config: Config = this.config) => {
-    this.config = config;
-    this.playground = new Playground(config);
-    this.petMap = initializePetMap(config);
+  reset = (config: Partial<Config> = {}) => {
+    this.config = {
+      ...this.config,
+      ...config
+    };
+    console.log(this.config);
+
+    this.playground = new Playground(this.config);
+    this.petMap = initializePetMap(this.config);
   };
 
-  setEvolutionParams = (evolutionParams: EvolutionParams) => {
-    this.config.evolutionParams = evolutionParams;
+  setEvolutionParams = (evolutionParams: Partial<EvolutionParams>) => {
+    this.config.evolutionParams = {
+      ...this.config.evolutionParams,
+      ...evolutionParams
+    };
 
     this.pause();
     this.play();

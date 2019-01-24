@@ -1,0 +1,118 @@
+#ocean-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.control-inputs {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group {
+  width: 400px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+
+  border-bottom: 1px solid #999;
+
+  font-size: 24px;
+}
+
+#ocean-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(55, 55, 55, 0.4);
+}
+
+#pause-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+
+  padding: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#pause-overlay:hover > #pause {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+#pause-overlay:hover > #stop {
+  display: block;
+}
+
+#pause {
+  display: none;
+  height: 60px;
+  width: 60px;
+
+  cursor: pointer;
+}
+
+#pause.paused {
+  width: 0;
+  height: 0;
+
+  border-right: 0px solid transparent;
+  border-top: 30px solid transparent;
+  border-bottom: 30px solid transparent;
+  border-left: 60px solid #999;
+}
+
+#pause.paused .pause-stick {
+  display: none;
+}
+
+#stop {
+  display: none;
+  height: 60px;
+  width: 60px;
+  margin-left: 30px;
+
+  background-color: #999;
+
+  cursor: pointer;
+}
+
+.pause-stick {
+  width: 20px;
+
+  background-color: #999;
+}
+
+#initial-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: greenyellow;
+}
+
+.control-buttons {
+  margin-top: 60px;
+}
+
+.control-buttons button {
+  height: 40px;
+  width: 150px;
+}
+
+#evolution-controls {
+}

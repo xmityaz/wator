@@ -6,7 +6,7 @@ import {initControls} from './controls';
 export const defaultEvolutionParams: EvolutionParams = {
   fishReproducingRate: 15,
   sharkReproducingRate: 15,
-  sharkMaxEnergy: 10,
+  sharkMaxEnergy: 5,
   gameSpeed: 50
 };
 

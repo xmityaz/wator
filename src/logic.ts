@@ -84,12 +84,12 @@ function processSharkMove(petMap: PetMap, position: string, config: Config): str
   const shark = petMap[position] as Shark;
   const [sharkX, sharkY] = position.split(',').map(val => Number(val));
 
-  const neighboarFishPositions = getNeighbourPositions(sharkX, sharkY, config).filter(
+  const neighbourFishPositions = getNeighbourPositions(sharkX, sharkY, config).filter(
     (neighborPosition: string) => petMap[neighborPosition] && isFish(petMap[neighborPosition])
   );
 
-  if (neighboarFishPositions.length > 0) {
-    const newPosition = moveToRandomPosition(neighboarFishPositions, petMap, position);
+  if (neighbourFishPositions.length > 0) {
+    const newPosition = moveToRandomPosition(neighbourFishPositions, petMap, position);
     shark.energy = config.evolutionParams.sharkMaxEnergy;
 
     return newPosition;

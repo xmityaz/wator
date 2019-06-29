@@ -53,7 +53,6 @@ export class Game {
       ...this.config,
       ...config
     };
-    console.log(this.config);
 
     this.playground = new Playground(this.config);
     this.petMap = initializePetMap(this.config);

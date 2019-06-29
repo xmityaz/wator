@@ -2,6 +2,12 @@
 <html>
   <head>
     <title>wator</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
   </head>
 
   <body>
@@ -10,35 +16,8 @@
         <canvas id="ocean"></canvas>
 
         <div id="ocean-overlay">
-          <div id="initial-controls">
-            <div class="control-inputs">
-              <div class="input-group">
-                <label for="startFishNumber">Fish number at start</label>
-                <input
-                  type="number"
-                  min="5"
-                  max="100"
-                  value="90"
-                  name="startFishNumber"
-                  id="start-fish-number"
-                />
-              </div>
-              <div class="input-group">
-                <label for="startSharkNumber">Shark number at start</label>
-                <input
-                  type="number"
-                  min="5"
-                  max="100"
-                  value="90"
-                  name="startSharkNumber"
-                  id="start-shark-number"
-                />
-              </div>
-            </div>
-          </div>
-
           <div class="control-buttons">
-            <button id="start-button">Start</button>
+            <button id="start-button" class="btn btn-primary">Start</button>
             <!-- <button id="reset-button">Reset</button> -->
           </div>
         </div>
@@ -53,41 +32,104 @@
         </div>
       </div>
 
-      <form id="evolution-controls">
-        <div class="control-inputs">
-          <div class="input-group">
-            <label for="fishReproducingRate">Fish caviar throwing</label>
-            <input
-              type="number"
-              min="5"
-              max="100"
-              value="15"
-              name="fishReproducingRate"
-              id="fishReproducingRate"
-            />
-          </div>
-          <div class="input-group">
-            <label for="sharkReproducingRate">Shark pregnancy rate</label>
-            <input
-              type="number"
-              min="5"
-              max="100"
-              value="15"
-              name="sharkReproducingRate"
-              id="sharkReproducingRate"
-            />
-          </div>
-          <div class="input-group">
-            <label for="sharkMaxEnergy">Shark energy</label>
-            <input type="number" min="5" max="50" value="10" name="sharkMaxEnergy" id="sharkMaxEnergy" />
-          </div>
-          <div class="input-group">
-            <label for="gameSpeed">Game speed</label>
-            <input type="number" min="20" max="1000" value="50" name="gameSpeed" id="gameSpeed" />
-          </div>
+      <div class="card">
+        <div class="card-body">
+          <form id="initial-controls">
+            <div class="control-inputs">
+              <div class="form-group">
+                <label for="start-fish-number">Fish number at start</label>
+                <input
+                  type="number"
+                  min="5"
+                  max="100"
+                  value="90"
+                  name="startFishNumber"
+                  id="start-fish-number"
+                  class="form-control"
+                />
+              </div>
+              <div class="form-group">
+                <label for="start-shark-number">Shark number at start</label>
+                <input
+                  type="number"
+                  min="5"
+                  max="100"
+                  value="90"
+                  name="startSharkNumber"
+                  id="start-shark-number"
+                  class="form-control"
+                />
+              </div>
+            </div>
+          </form>
+
+          <form id="evolution-controls">
+            <div class="control-inputs">
+              <div class="form-group">
+                <label for="fishReproducingRate">Fish caviar throwing</label>
+                <input
+                  type="number"
+                  min="5"
+                  max="100"
+                  name="fishReproducingRate"
+                  id="fishReproducingRate"
+                  class="form-control"
+                />
+              </div>
+              <div class="form-group">
+                <label for="sharkReproducingRate">Shark pregnancy rate</label>
+                <input
+                  type="number"
+                  min="5"
+                  max="100"
+                  name="sharkReproducingRate"
+                  id="sharkReproducingRate"
+                  class="form-control"
+                />
+              </div>
+              <div class="form-group">
+                <label for="sharkMaxEnergy">Shark energy</label>
+                <input
+                  type="number"
+                  min="5"
+                  max="50"
+                  name="sharkMaxEnergy"
+                  id="sharkMaxEnergy"
+                  class="form-control"
+                />
+              </div>
+              <div class="form-group">
+                <label for="gameSpeed">Game speed</label>
+                <input
+                  type="number"
+                  min="20"
+                  max="1000"
+                  name="gameSpeed"
+                  id="gameSpeed"
+                  class="form-control"
+                />
+              </div>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
     <script src="./bundle.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

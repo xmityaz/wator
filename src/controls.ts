@@ -1,10 +1,14 @@
 import * as $ from 'jquery';
 import {Game, EvolutionParams} from './game';
 
+// enable bootstrap tooltips everywhere
+
 const initialControls = $('#initial-controls');
 const evolutionControls = $('#evolution-controls');
 const starkFishNumberInput = $('#start-fish-number');
 const starkSharkNumberInput = $('#start-shark-number');
+
+$(() => (initialControls.find('[data-toggle="tooltip"]') as any).tooltip('disable'));
 
 const startButton = $('#start-button');
 
@@ -25,10 +29,12 @@ function hideOverlay() {
 
 function disableInitControls() {
   initialControls.find('input').prop('disabled', true);
+  (initialControls.find('[data-toggle="tooltip"]') as any).tooltip('enable');
 }
 
 function enableInitControls() {
   initialControls.find('input').prop('disabled', false);
+  (initialControls.find('[data-toggle="tooltip"]') as any).tooltip('disable');
 }
 
 function initializeEvolutionForm(game: Game, defaultParams: EvolutionParams) {

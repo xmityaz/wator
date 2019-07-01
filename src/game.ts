@@ -64,8 +64,10 @@ export class Game {
       ...evolutionParams
     };
 
-    this.pause();
-    this.play();
+    if (this.isRunning) {
+      this.pause();
+      this.play();
+    }
   };
 
   constructor(config: Config) {

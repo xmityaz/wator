@@ -1,6 +1,14 @@
 #root {
+  margin: 0 auto;
+  max-width: 900px;
+
   display: flex;
   align-items: center;
+  flex-direction: column;
+}
+
+.wator-playground {
+  margin: 40px 0;
 }
 
 #ocean-wrapper {
@@ -107,4 +115,12 @@
 }
 
 #evolution-controls {
+}
+
+.mock-wator {
+  width: 600px;
+  height: 600px;
+  margin: 40px 0;
+
+  background-color: #999;
 }

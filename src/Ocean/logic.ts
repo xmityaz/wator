@@ -1,4 +1,4 @@
-import {Config} from './game';
+import {Config} from './Ocean.types';
 
 type Fish = {
   cyclesSinceReproduce: number;
@@ -104,7 +104,7 @@ function processSharkMove(petMap: PetMap, position: string, config: Config): str
 
 export function initializePetMap({startParams, boardSize, evolutionParams}: Config) {
   const a = (counter: number, petMap: PetMap = {}): PetMap => {
-    if (counter === 0) {
+    if (counter <= 0) {
       return petMap;
     }
 

@@ -1,12 +1,12 @@
 {
-  "name": "xtetriz",
+  "name": "wator",
   "version": "1.0.0",
-  "description": "Let me recall canvas stuff",
-  "main": "index.js",
+  "description": "Dave and Ed",
+  "main": "index.tsx",
   "scripts": {
     "test": "test",
-    "build": "webpack --mode development",
-    "start": "webpack-dev-server --mode development"
+    "start": "react-scripts start --isolatedModules=false",
+    "build": "react-scripts build"
   },
   "keywords": [
     "testris",
@@ -15,18 +15,35 @@
   "author": "xmityaz",
   "license": "ISC",
   "dependencies": {
-    "jquery": "^3.3.1"
+    "jquery": "^3.3.1",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-scripts": "3.2.0"
   },
   "devDependencies": {
+    "@types/jest": "24.0.22",
     "@types/jquery": "^3.3.30",
+    "@types/node": "12.12.7",
+    "@types/react": "16.9.11",
+    "@types/react-dom": "16.9.4",
     "css-loader": "^0.28.11",
     "file-loader": "^1.1.11",
+    "node-sass": "^4.13.0",
     "style-loader": "^0.20.3",
     "ts-loader": "^4.1.0",
     "tslib": "^1.9.3",
-    "typescript": "^2.8.1",
-    "webpack": "4.19.1",
-    "webpack-cli": "^2.0.13",
-    "webpack-dev-server": "^3.1.1"
+    "typescript": "3.7.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

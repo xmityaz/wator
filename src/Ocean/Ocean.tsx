@@ -6,26 +6,9 @@ import {Playground, BRICK_SIZE} from './playground';
 import {EvolutionControls} from '../EvolutionControls/EvolutionControls';
 import {StartControls} from '../StartControls/StartControls';
 
-const defaultEvolutionParams: EvolutionParams = {
-  fishReproducingRate: 15,
-  sharkReproducingRate: 15,
-  sharkMaxEnergy: 5,
-  gameSpeed: 50
-};
-
-let testConfig: Config = {
-  boardSize: {width: 150, height: 150},
-
-  evolutionParams: defaultEvolutionParams,
-
-  startParams: {
-    startFishNumber: 1000,
-    startSharkNumber: 1000
-  }
-};
-
 export type OceanProps = {
-  // config?: Config;
+  withControls: boolean;
+  initialConfig: Config;
 };
 
 export type OceanState = {
@@ -35,10 +18,6 @@ export type OceanState = {
 };
 
 export class Ocean extends React.Component<OceanProps, OceanState> {
-  static defaultProps = {
-    boardSize: testConfig.boardSize
-  };
-
   private playground: Playground;
 
   private petMap: PetMap;
@@ -49,7 +28,7 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
 
   private get config(): Config {
     return {
-      boardSize: testConfig.boardSize, // TODO: replace on props
+      boardSize: this.props.initialConfig.boardSize, // TODO: replace on props
       startParams: this.state.startParams,
       evolutionParams: this.state.evolutionParams
     };
@@ -93,14 +72,12 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
   };
 
   setEvolutionParams = (evolutionParams: Partial<EvolutionParams>) => {
-    this.setState({
-      evolutionParams: {...this.state.evolutionParams, ...evolutionParams}
+    this.setState({evolutionParams: {...this.state.evolutionParams, ...evolutionParams}}, () => {
+      if (this.state.isRunning) {
+        clearInterval(this.gameLoop);
+        this.gameLoop = setInterval(() => requestAnimationFrame(this.step), this.gameSpeed);
+      }
     });
-
-    if (this.state.isRunning) {
-      this.pause();
-      this.play();
-    }
   };
 
   setStartParams = (startParams: Partial<StartParams>) => {
@@ -114,8 +91,8 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
 
     this.state = {
       isRunning: false,
-      evolutionParams: testConfig.evolutionParams,
-      startParams: testConfig.startParams
+      evolutionParams: this.props.initialConfig.evolutionParams,
+      startParams: this.props.initialConfig.startParams
     };
   }
 
@@ -125,6 +102,7 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
   }
 
   render() {
+    const {withControls} = this.props;
     const {isRunning} = this.state;
 
     return (
@@ -156,15 +134,17 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
           )}
         </div>
 
-        <div className={s.controls}>
-          <StartControls
-            disabled={isRunning}
-            onChange={this.setStartParams}
-            values={this.state.startParams}
-          />
+        {withControls && (
+          <div className={s.controls}>
+            <StartControls
+              disabled={isRunning}
+              onChange={this.setStartParams}
+              values={this.state.startParams}
+            />
 
-          <EvolutionControls values={this.state.evolutionParams} onChange={this.setEvolutionParams} />
-        </div>
+            <EvolutionControls values={this.state.evolutionParams} onChange={this.setEvolutionParams} />
+          </div>
+        )}
       </div>
     );
   }

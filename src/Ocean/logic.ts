@@ -1,4 +1,4 @@
-import {Config} from './game';
+import {Config} from './Ocean.types';
 
 type Fish = {
   cyclesSinceReproduce: number;
@@ -17,28 +17,8 @@ export function isFish(pet: Pet) {
   return typeof (pet as Shark).energy === 'undefined';
 }
 
-export function parsePosition(pos: string): {x: number; y: number} {
-  const [x, y] = pos.split(',').map(val => Number(val));
-  return {x, y};
-}
-
 function getRandomEl(arr: any[]) {
   return arr[Math.floor(Math.random() * arr.length)];
-}
-
-function getNeighbourPositions(initX: number, initY: number, {boardSize}: Config): string[] {
-  return [[initX + 1, initY], [initX - 1, initY], [initX, initY + 1], [initX, initY - 1]].map(([x, y]) => {
-    if (x < 0) {
-      return `${boardSize.width - 1},${y}`;
-    } else if (x >= boardSize.width) {
-      return `0,${y}`;
-    } else if (y < 0) {
-      return `${x},${boardSize.height - 1}`;
-    } else if (y >= boardSize.height) {
-      return `${x},0`;
-    }
-    return `${x},${y}`;
-  });
 }
 
 function moveToRandomPosition(positions: string[], petMap: PetMap, currentPosition: string): string {
@@ -53,13 +33,39 @@ function moveToRandomPosition(positions: string[], petMap: PetMap, currentPositi
   return currentPosition;
 }
 
-function processFishMove(petMap: PetMap, position: string, config: Config): string {
-  const {x: fishX, y: fishY} = parsePosition(position);
-  const availablePositions = getNeighbourPositions(fishX, fishY, config).filter(
-    position => !petMap[position]
-  );
+function processFishMove(petMap: PetMap, position: string, {boardSize}: Config): string {
+  const zptI = position.indexOf(',');
+  const x = Number(position.slice(0, zptI));
+  const y = Number(position.slice(zptI + 1, position.length));
 
-  return moveToRandomPosition(availablePositions, petMap, position);
+  const west = x <= 0 ? `${boardSize.width - 1},${y}` : `${x - 1},${y}`;
+  const east = x >= boardSize.width ? `0,${y}` : `${x + 1},${y}`;
+  const south = y <= 0 ? `${x},${boardSize.height - 1}` : `${x},${y - 1}`;
+  const north = y >= boardSize.height ? `${x},0` : `${x},${y + 1}`;
+  const positions = [];
+
+  if (!petMap[west]) {
+    positions.push(west);
+  }
+  if (!petMap[east]) {
+    positions.push(east);
+  }
+  if (!petMap[south]) {
+    positions.push(south);
+  }
+  if (!petMap[north]) {
+    positions.push(north);
+  }
+
+  if (positions.length > 0) {
+    const newPosition = getRandomEl(positions);
+    petMap[newPosition] = petMap[position];
+    delete petMap[position];
+
+    return newPosition;
+  }
+
+  return position;
 }
 
 function processPetReproduce(
@@ -82,11 +88,29 @@ function processPetReproduce(
 
 function processSharkMove(petMap: PetMap, position: string, config: Config): string | null {
   const shark = petMap[position] as Shark;
-  const [sharkX, sharkY] = position.split(',').map(val => Number(val));
 
-  const neighbourFishPositions = getNeighbourPositions(sharkX, sharkY, config).filter(
-    (neighborPosition: string) => petMap[neighborPosition] && isFish(petMap[neighborPosition])
-  );
+  const zptI = position.indexOf(',');
+  const x = Number(position.slice(0, zptI));
+  const y = Number(position.slice(zptI + 1, position.length));
+
+  const west = x <= 0 ? `${config.boardSize.width - 1},${y}` : `${x - 1},${y}`;
+  const east = x >= config.boardSize.width ? `0,${y}` : `${x + 1},${y}`;
+  const south = y <= 0 ? `${x},${config.boardSize.height - 1}` : `${x},${y - 1}`;
+  const north = y >= config.boardSize.height ? `${x},0` : `${x},${y + 1}`;
+  const neighbourFishPositions = [];
+
+  if (petMap[west] && isFish(petMap[west])) {
+    neighbourFishPositions.push(west);
+  }
+  if (petMap[east] && isFish(petMap[east])) {
+    neighbourFishPositions.push(east);
+  }
+  if (petMap[south] && isFish(petMap[south])) {
+    neighbourFishPositions.push(south);
+  }
+  if (petMap[north] && isFish(petMap[north])) {
+    neighbourFishPositions.push(north);
+  }
 
   if (neighbourFishPositions.length > 0) {
     const newPosition = moveToRandomPosition(neighbourFishPositions, petMap, position);
@@ -104,7 +128,7 @@ function processSharkMove(petMap: PetMap, position: string, config: Config): str
 
 export function initializePetMap({startParams, boardSize, evolutionParams}: Config) {
   const a = (counter: number, petMap: PetMap = {}): PetMap => {
-    if (counter === 0) {
+    if (counter <= 0) {
       return petMap;
     }
 

@@ -1,7 +1,7 @@
 import {Config} from './Ocean.types';
 
 const gameSpeed = 50;
-const boardSize = {width: 150, height: 150};
+const boardSize = {width: 185, height: 150};
 
 export const configOneFish: Config = {
   boardSize,

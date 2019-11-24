@@ -1,25 +1,7 @@
 import React from 'react';
 import s from './App.module.scss';
 import {Ocean} from '../Ocean/Ocean';
-import {Config, EvolutionParams} from '../Ocean/Ocean.types';
-
-const defaultEvolutionParams: EvolutionParams = {
-  fishReproducingRate: 15,
-  sharkReproducingRate: 15,
-  sharkMaxEnergy: 5,
-  gameSpeed: 50
-};
-
-let testConfig: Config = {
-  boardSize: {width: 150, height: 150},
-
-  evolutionParams: defaultEvolutionParams,
-
-  startParams: {
-    startFishNumber: 2000,
-    startSharkNumber: 1000
-  }
-};
+import {configOneFish, configManyFish, configDoomed} from './watorExampleConfigs';
 
 const App: React.FC = () => {
   return (
@@ -37,7 +19,7 @@ const App: React.FC = () => {
         hunger.
       </div>
 
-      <Ocean withControls={false} initialConfig={testConfig} />
+      <Ocean withControls={false} initialConfig={configOneFish} />
 
       <div>
         For a brief moment he was happy. But suddenly he understood that Dave lacks something very important
@@ -45,7 +27,7 @@ const App: React.FC = () => {
         ability to give birth.
       </div>
 
-      <Ocean withControls={false} initialConfig={testConfig} />
+      <Ocean withControls={false} initialConfig={configManyFish} />
 
       <div>
         Oh no, Dave went out of control and kept reproducing until the ocean became overcrowded. He wanted
@@ -56,14 +38,14 @@ const App: React.FC = () => {
         This way it was just.
       </div>
 
-      <Ocean withControls={false} initialConfig={testConfig} />
+      <Ocean withControls={false} initialConfig={configDoomed} />
 
       <div>
         Something was not quite right. This world was dead again. Sharks ate all the fish and died of hunger.
-        He thought that he could fix it by making Ed breed slowly.{' '}
+        He thought that he could fix it by making Ed breed slowly.
       </div>
 
-      <Ocean withControls={true} initialConfig={testConfig} />
+      <Ocean withControls={true} initialConfig={configDoomed} />
     </div>
   );
 };

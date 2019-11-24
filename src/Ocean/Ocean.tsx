@@ -98,7 +98,6 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
 
   componentDidMount() {
     this.playground = new Playground(this.config, this.canvas);
-    this.petMap = initializePetMap(this.config);
   }
 
   render() {

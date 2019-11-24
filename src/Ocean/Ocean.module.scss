@@ -9,6 +9,8 @@
 
 .oceanWrapper {
   position: relative;
+
+  box-shadow: 0 0px 8px -1px rgba(0, 0, 0, 0.2);
 }
 
 .overlay {
@@ -52,7 +54,7 @@
 
 .pause {
   box-sizing: border-box;
-  
+
   display: none;
   height: 60px;
   width: 60px;
@@ -63,6 +65,16 @@
   cursor: pointer;
 }
 
+.btn {
+  // TODO: Consider to have global style for it
+  height: 40px;
+  width: 120px;
+
+  border: 2px solid #666;
+  border-radius: 20px;
+
+  font-size: 20px;
+}
 // .stop {
 //   display: none;
 //   height: 60px;

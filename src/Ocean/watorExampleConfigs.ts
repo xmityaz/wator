@@ -1,4 +1,4 @@
-import {Config} from '../Ocean/Ocean.types';
+import {Config} from './Ocean.types';
 
 const gameSpeed = 50;
 const boardSize = {width: 150, height: 150};

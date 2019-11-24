@@ -117,7 +117,7 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
           {!isRunning && (
             <div className={s.overlay}>
               <div className="control-buttons">
-                <button className="btn btn-primary" onClick={this.onStart}>
+                <button className={s.btn} onClick={this.onStart}>
                   Start
                 </button>
                 {/* <button id="reset-button">Reset</button> */}

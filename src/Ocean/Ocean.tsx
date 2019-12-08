@@ -1,4 +1,4 @@
-import React, {isValidElement} from 'react';
+import React from 'react';
 import {EvolutionParams, Config, StartParams} from './Ocean.types';
 import s from './Ocean.module.scss';
 import {processDay, PetMap, initializePetMap} from './logic';
@@ -102,9 +102,7 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
   }
 
   componentDidUpdate(oldProps: OceanProps) {
-    console.log('!!!!!!!! componentDidUpdate');
     if (oldProps.isActive && !this.props.isActive && this.state.isRunning) {
-      console.log('!!!!!!!! paused');
       this.pause();
     }
   }

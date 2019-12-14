@@ -4,12 +4,15 @@ import s from './Wizard.module.scss';
 import {Ocean} from '../Ocean/Ocean';
 import {configOneFish, configManyFish, configDoomed} from '../Ocean/watorExampleConfigs';
 import {WizardPage} from '../WizardPage/WizardPage';
+import {Navigation} from '../Navigation/Navigation';
 
 export class Wizard extends React.Component {
   render() {
     return (
       <div className={s.root}>
-        <StepWizard>
+        <header className={s.header}>Wator</header>
+
+        <StepWizard className={s.content} nav={<Navigation />}>
           <WizardPage>
             <div>
               It all started in 1984 when one god-like creature who lived in our neighbor galaxy. He just

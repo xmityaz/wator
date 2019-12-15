@@ -1,4 +1,4 @@
-type BoardSize = { width: number; height: number };
+export type BoardSize = { width: number; height: number };
 
 export type EvolutionParams = {
   fishReproducingRate: number;

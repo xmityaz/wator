@@ -153,6 +153,7 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
         {withControls && (
           <div className={s.controls}>
             <StartControls
+              className={s.startControls}
               disabled={isRunning}
               onChange={this.setStartParams}
               values={this.state.config.startParams}

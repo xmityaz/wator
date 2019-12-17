@@ -1,17 +1,18 @@
 import React from 'react';
+import Slider, {createSliderWithTooltip} from 'rc-slider';
 import {EvolutionParams} from '../Ocean/Ocean.types';
+import 'rc-slider/assets/index.css';
 
 export type EvolutionControlsProps = {
   values: EvolutionParams;
   onChange: (_: Partial<EvolutionParams>) => void;
 };
 
-export class EvolutionControls extends React.Component<EvolutionControlsProps> {
-  onInputChange = (event: React.FormEvent<HTMLInputElement>) => {
-    const value = event.currentTarget.value;
-    const name = event.currentTarget.name;
+const SliderWithTooltip = createSliderWithTooltip(Slider);
 
-    this.props.onChange({[name]: Number(value)});
+export class EvolutionControls extends React.Component<EvolutionControlsProps> {
+  onSliderChange = (name: string) => (value: number) => {
+    this.props.onChange({[name]: value});
   };
 
   render() {
@@ -22,50 +23,41 @@ export class EvolutionControls extends React.Component<EvolutionControlsProps> {
         <div className="control-inputs">
           <div className="form-group">
             <label>Fish caviar throwing</label>
-            <input
+
+            <SliderWithTooltip
+              min={5}
+              max={150}
               value={values.fishReproducingRate}
-              type="number"
-              min="5"
-              max="100"
-              name="fishReproducingRate"
-              className="form-control"
-              onChange={this.onInputChange}
+              onChange={this.onSliderChange('fishReproducingRate')}
             />
           </div>
           <div className="form-group">
             <label>Shark pregnancy rate</label>
-            <input
+            <SliderWithTooltip
+              min={5}
+              max={150}
               value={values.sharkReproducingRate}
-              type="number"
-              min="5"
-              max="100"
-              name="sharkReproducingRate"
-              className="form-control"
-              onChange={this.onInputChange}
+              onChange={this.onSliderChange('sharkReproducingRate')}
             />
           </div>
           <div className="form-group">
             <label>Shark energy</label>
-            <input
+
+            <SliderWithTooltip
+              min={5}
+              max={150}
               value={values.sharkMaxEnergy}
-              type="number"
-              min="5"
-              max="50"
-              name="sharkMaxEnergy"
-              className="form-control"
-              onChange={this.onInputChange}
+              onChange={this.onSliderChange('sharkMaxEnergy')}
             />
           </div>
           <div className="form-group">
             <label>Game speed</label>
-            <input
+
+            <SliderWithTooltip
+              min={5}
+              max={150}
               value={values.gameSpeed}
-              type="number"
-              min="20"
-              max="1000"
-              name="gameSpeed"
-              className="form-control"
-              onChange={this.onInputChange}
+              onChange={this.onSliderChange('gameSpeed')}
             />
           </div>
         </div>

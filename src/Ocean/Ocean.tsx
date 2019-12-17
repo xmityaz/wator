@@ -15,8 +15,7 @@ export type OceanProps = {
 
 export type OceanState = {
   isRunning: boolean;
-  evolutionParams: EvolutionParams;
-  startParams: StartParams;
+  config: Config;
 };
 
 const MAX_HEIGHT = 160;
@@ -31,11 +30,8 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
 
   private canvas: HTMLCanvasElement;
 
-  private config: Config;
-  private setConfig = (config: Config) => (this.config = config);
-
   private get gameSpeed() {
-    return this.config.evolutionParams.gameSpeed;
+    return this.state.config.evolutionParams.gameSpeed;
   }
 
   private initCanvas = (el: HTMLCanvasElement) => {
@@ -43,22 +39,27 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
   };
 
   private step = () => {
-    this.playground.drawPetMap(this.petMap, this.config);
-    processDay(this.petMap, this.config);
+    this.playground.drawPetMap(this.petMap, this.state.config);
+    processDay(this.petMap, this.state.config);
   };
 
   private onStart = () => {
-    this.petMap = initializePetMap(this.config);
+    this.petMap = initializePetMap(this.state.config);
     this.play();
+  };
+
+  private setConfig = (configChanges: Partial<Config>) => {
+    this.setState({config: {...this.state.config, ...configChanges}});
   };
 
   private getFittableBoardSize = (): BoardSize => {
     const wizEl = document.getElementsByClassName(wizardStyles.content)[0];
     const pageEl = wizEl.lastElementChild as HTMLElement;
     const clientRect = pageEl.getBoundingClientRect();
+    const controlsWidth = 200 / BRICK_SIZE.WIDTH;
 
     return {
-      width: Math.floor(clientRect.width / BRICK_SIZE.WIDTH),
+      width: Math.floor(clientRect.width / BRICK_SIZE.WIDTH) - controlsWidth,
       height: Math.min(MAX_HEIGHT, Math.floor(clientRect.height / BRICK_SIZE.HEIGHT))
     };
   };
@@ -74,45 +75,42 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
   };
 
   reset = ({startParams, evolutionParams}: Partial<Config> = {}) => {
-    this.setState({
-      startParams: {...this.state.startParams, ...startParams},
-      evolutionParams: {...this.state.evolutionParams, ...evolutionParams}
+    this.setConfig({
+      startParams: {...this.state.config.startParams, ...startParams},
+      evolutionParams: {...this.state.config.evolutionParams, ...evolutionParams}
     });
 
-    this.playground = new Playground(this.config, this.canvas);
+    this.playground = new Playground(this.state.config, this.canvas);
   };
 
   setEvolutionParams = (evolutionParams: Partial<EvolutionParams>) => {
-    this.setState({evolutionParams: {...this.state.evolutionParams, ...evolutionParams}}, () => {
-      if (this.state.isRunning) {
-        clearInterval(this.gameLoop);
-        this.gameLoop = setInterval(() => requestAnimationFrame(this.step), this.gameSpeed);
-      }
+    this.setConfig({
+      evolutionParams: {...this.state.config.evolutionParams, ...evolutionParams}
     });
+
+    if (this.state.isRunning) {
+      clearInterval(this.gameLoop);
+      this.gameLoop = setInterval(() => requestAnimationFrame(this.step), this.gameSpeed);
+    }
   };
 
   setStartParams = (startParams: Partial<StartParams>) => {
-    this.setState({
-      startParams: {...this.state.startParams, ...startParams}
+    this.setConfig({
+      startParams: {...this.state.config.startParams, ...startParams}
     });
   };
 
   constructor(props: OceanProps) {
     super(props);
 
-    this.state = {
-      isRunning: false,
-      evolutionParams: this.props.initialConfig.evolutionParams,
-      startParams: this.props.initialConfig.startParams
-    };
+    this.state = {isRunning: false, config: this.props.initialConfig};
   }
 
   componentDidMount() {
-    const {startParams, evolutionParams} = this.state;
     const boardSize = this.getFittableBoardSize();
 
-    this.setConfig({boardSize, startParams, evolutionParams});
-    this.setPlayground(new Playground(this.config, this.canvas));
+    this.setConfig({boardSize});
+    this.setPlayground(new Playground(this.state.config, this.canvas));
   }
 
   componentDidUpdate(oldProps: OceanProps) {
@@ -130,8 +128,8 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
         <div className={s.oceanWrapper}>
           <canvas
             ref={this.initCanvas}
-            width={this.config && BRICK_SIZE.WIDTH * this.config.boardSize.width}
-            height={this.config && BRICK_SIZE.HEIGHT * this.config.boardSize.height}
+            width={this.state.config && BRICK_SIZE.WIDTH * this.state.config.boardSize.width}
+            height={this.state.config && BRICK_SIZE.HEIGHT * this.state.config.boardSize.height}
           />
 
           {!isRunning && (
@@ -157,10 +155,13 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
             <StartControls
               disabled={isRunning}
               onChange={this.setStartParams}
-              values={this.state.startParams}
+              values={this.state.config.startParams}
             />
 
-            <EvolutionControls values={this.state.evolutionParams} onChange={this.setEvolutionParams} />
+            <EvolutionControls
+              values={this.state.config.evolutionParams}
+              onChange={this.setEvolutionParams}
+            />
           </div>
         )}
       </div>

@@ -1,8 +1,8 @@
 import React from 'react';
-import {EvolutionParams, Config, StartParams, BoardSize} from './Ocean.types';
+import {EvolutionParams, Config, StartParams, Size} from './Ocean.types';
 import s from './Ocean.module.scss';
 import {processDay, PetMap, initializePetMap} from './logic';
-import {Playground, BRICK_SIZE} from './playground';
+import {Playground} from './playground';
 import {EvolutionControls} from '../EvolutionControls/EvolutionControls';
 import {StartControls} from '../StartControls/StartControls';
 import wizardStyles from '../Wizard/Wizard.module.scss';
@@ -39,7 +39,9 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
   };
 
   private step = () => {
-    this.playground.drawPetMap(this.petMap, this.state.config);
+    this.state.config.rectMode
+      ? this.playground.drawRectPetMap(this.petMap, this.state.config)
+      : this.playground.drawPetMap(this.petMap, this.state.config);
     processDay(this.petMap, this.state.config);
   };
 
@@ -52,15 +54,16 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
     this.setState({config: {...this.state.config, ...configChanges}});
   };
 
-  private getFittableBoardSize = (): BoardSize => {
+  private getFittableSize = (): Size => {
+    const {brickSize} = this.state.config;
     const wizEl = document.getElementsByClassName(wizardStyles.content)[0];
     const pageEl = wizEl.lastElementChild as HTMLElement;
     const clientRect = pageEl.getBoundingClientRect();
-    const controlsWidth = 200 / BRICK_SIZE.WIDTH;
+    const controlsWidth = 200 / brickSize.width;
 
     return {
-      width: Math.floor(clientRect.width / BRICK_SIZE.WIDTH) - controlsWidth,
-      height: Math.min(MAX_HEIGHT, Math.floor(clientRect.height / BRICK_SIZE.HEIGHT))
+      width: Math.floor(clientRect.width / brickSize.width) - controlsWidth,
+      height: Math.min(MAX_HEIGHT, Math.floor(clientRect.height / brickSize.height))
     };
   };
 
@@ -107,7 +110,7 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
   }
 
   componentDidMount() {
-    const boardSize = this.getFittableBoardSize();
+    const boardSize = this.getFittableSize();
 
     this.setConfig({boardSize});
     this.setPlayground(new Playground(this.state.config, this.canvas));
@@ -121,15 +124,15 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
 
   render() {
     const {withControls} = this.props;
-    const {isRunning} = this.state;
+    const {isRunning, config} = this.state;
 
     return (
       <div className={s.root}>
         <div className={s.oceanWrapper}>
           <canvas
             ref={this.initCanvas}
-            width={this.state.config && BRICK_SIZE.WIDTH * this.state.config.boardSize.width}
-            height={this.state.config && BRICK_SIZE.HEIGHT * this.state.config.boardSize.height}
+            width={config && config.brickSize.width * config.boardSize.width}
+            height={config && config.brickSize.height * config.boardSize.height}
           />
 
           {!isRunning && (

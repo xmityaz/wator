@@ -2,9 +2,11 @@ import React from 'react';
 import StepWizard from 'react-step-wizard';
 import s from './Wizard.module.scss';
 import {Ocean} from '../Ocean/Ocean';
-import {configOneFish, configManyFish, configDoomed} from '../Ocean/watorExampleConfigs';
+import {configOneFish, configManyFish, configDoomed, configSandbox} from '../Ocean/watorExampleConfigs';
 import {WizardPage} from '../WizardPage/WizardPage';
 import {Navigation} from '../Navigation/Navigation';
+import {Dave} from '../icons/Dave';
+import {Ed} from '../icons/Ed';
 
 export class Wizard extends React.Component {
   render() {
@@ -24,6 +26,8 @@ export class Wizard extends React.Component {
               covered every bit of the land. And then he created Dave, a fish. He also filled his ocean with
               endless plankton so that Dave never dies from hunger.
             </div>
+
+            <Dave />
           </WizardPage>
 
           <WizardPage>
@@ -51,6 +55,8 @@ export class Wizard extends React.Component {
               but he knew he should be careful not to make old mistakes. He had to let Ed breed. But he had to
               also let him die. This way it was just.
             </div>
+
+            <Ed />
           </WizardPage>
 
           <WizardPage>
@@ -65,7 +71,7 @@ export class Wizard extends React.Component {
           </WizardPage>
 
           <WizardPage>
-            <Ocean withControls={true} initialConfig={configDoomed} />
+            <Ocean withControls={true} initialConfig={configSandbox} />
           </WizardPage>
         </StepWizard>
       </div>

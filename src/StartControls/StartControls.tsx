@@ -1,56 +1,45 @@
 import React from 'react';
 import {StartParams} from '../Ocean/Ocean.types';
+import Slider, {createSliderWithTooltip} from 'rc-slider';
 
 export type StartControlsProps = {
+  className?: string;
   disabled: boolean;
   values: StartParams;
   onChange: (startParams: Partial<StartParams>) => void;
 };
 
-export class StartControls extends React.Component<StartControlsProps> {
-  onInputChange = (event: React.FormEvent<HTMLInputElement>) => {
-    const value = event.currentTarget.value;
-    const name = event.currentTarget.name;
+const SliderWithTooltip = createSliderWithTooltip(Slider);
 
-    this.props.onChange({[name]: Number(value)});
+export class StartControls extends React.Component<StartControlsProps> {
+  onSliderChange = (name: string) => (value: number) => {
+    this.props.onChange({[name]: value});
   };
 
   render() {
-    const {disabled, values} = this.props;
+    const {disabled, values, className} = this.props;
 
     return (
-      <form id="initial-controls">
-        <div className="control-inputs">
-          <div className="form-group">
-            <label>Fish number at start</label>
-            <div data-toggle="tooltip" data-placement="right" title="Stop simulation to change">
-              <input
-                type="number"
-                min="5"
-                max="100"
-                value={values.startFishNumber}
-                name="startFishNumber"
-                className="form-control"
-                onChange={this.onInputChange}
-                disabled={disabled}
-              />
-            </div>
-          </div>
-          <div className="form-group">
-            <label>Shark number at start</label>
-            <div data-toggle="tooltip" data-placement="right" title="Stop simulation to change">
-              <input
-                type="number"
-                min="5"
-                max="100"
-                value={values.startSharkNumber}
-                name="startSharkNumber"
-                className="form-control"
-                onChange={this.onInputChange}
-                disabled={disabled}
-              />
-            </div>
-          </div>
+      <form className={className}>
+        <div>
+          <label>Fish number at start</label>
+          <SliderWithTooltip
+            min={1}
+            max={2500}
+            value={values.startFishNumber}
+            onChange={this.onSliderChange('startFishNumber')}
+            disabled={disabled}
+          />
+        </div>
+        <div>
+          <label>Shark number at start</label>
+          <SliderWithTooltip
+            min={1}
+            max={2500}
+            value={values.startSharkNumber}
+            onChange={this.onSliderChange('startSharkNumber')}
+            disabled={disabled}
+          />
         </div>
       </form>
     );

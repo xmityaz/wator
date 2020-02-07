@@ -10,7 +10,11 @@
 .oceanWrapper {
   position: relative;
 
-  box-shadow: 0 0px 8px -1px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+
+  border: 1px solid #afafaf;
+
+  line-height: 0;
 }
 
 .overlay {
@@ -76,13 +80,12 @@
   font-size: 20px;
   color: #333;
 }
-// .stop {
-//   display: none;
-//   height: 60px;
-//   width: 60px;
-//   margin-left: 30px;
 
-//   background-color: #999;
+.controls {
+  margin-left: 20px;
+  width: 200px;
+}
 
-//   cursor: pointer;
-// }
+.startControls {
+  margin-bottom: 40px;
+}

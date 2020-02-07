@@ -1,4 +1,4 @@
-type BoardSize = { width: number; height: number };
+export type Size = {width: number; height: number};
 
 export type EvolutionParams = {
   fishReproducingRate: number;
@@ -14,7 +14,9 @@ export type StartParams = {
 };
 
 export type Config = {
-  boardSize: BoardSize;
+  brickSize: Size;
+  boardSize: Size;
   evolutionParams: EvolutionParams;
   startParams: StartParams;
+  rectMode?: boolean;
 };

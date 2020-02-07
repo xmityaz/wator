@@ -1,0 +1,35 @@
+.root {
+  position: relative;
+  z-index: 100;
+
+  height: 64px;
+  width: 100%;
+
+  flex-shrink: 0;
+
+  // box-shadow: 0 0px 8px -1px rgba(0, 0, 0, 0.2);
+  border-top: 1px solid #dfdfdf;
+  background-color: #fff;
+}
+
+.navigation {
+  margin: 0 auto;
+  width: 740px;
+  height: 100%;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.item {
+  width: 30px;
+  height: 30px;
+
+  border-radius: 30px;
+  border: 1px solid #666;
+
+  &.active {
+    background-color: #666;
+  }
+}

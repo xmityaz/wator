@@ -127,29 +127,26 @@ function processSharkMove(petMap: PetMap, position: string, config: Config): str
 }
 
 export function initializePetMap({startParams, boardSize, evolutionParams}: Config) {
-  const a = (counter: number, petMap: PetMap = {}): PetMap => {
-    if (counter <= 0) {
-      return petMap;
-    }
+  const petMap: PetMap = {};
+  const animalLength = startParams.startFishNumber + startParams.startSharkNumber;
+  let counter = 0;
 
+  while (counter < animalLength) {
     const x = Math.floor(boardSize.width * Math.random());
     const y = Math.floor(boardSize.height * Math.random());
     const position = `${x},${y}`;
 
-    if (petMap[position]) {
-      return a(counter, petMap);
-    }
-
-    return a(counter - 1, {
-      ...petMap,
-      [position]:
-        counter <= startParams.startSharkNumber
+    if (!petMap[position]) {
+      petMap[position] =
+        counter < startParams.startSharkNumber
           ? {cyclesSinceReproduce: 0, energy: evolutionParams.sharkMaxEnergy}
-          : {cyclesSinceReproduce: 0}
-    });
-  };
+          : {cyclesSinceReproduce: 0};
 
-  return a(startParams.startFishNumber + startParams.startSharkNumber);
+      counter++;
+    }
+  }
+
+  return petMap;
 }
 
 export function processDay(petMap: PetMap, config: Config) {

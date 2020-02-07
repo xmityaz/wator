@@ -25,7 +25,7 @@ export class EvolutionControls extends React.Component<EvolutionControlsProps> {
           <label>Fish caviar throwing</label>
 
           <SliderWithTooltip
-            min={5}
+            min={80}
             max={150}
             value={values.fishReproducingRate}
             onChange={this.onSliderChange('fishReproducingRate')}
@@ -34,7 +34,7 @@ export class EvolutionControls extends React.Component<EvolutionControlsProps> {
         <div>
           <label>Shark pregnancy rate</label>
           <SliderWithTooltip
-            min={5}
+            min={120}
             max={150}
             value={values.sharkReproducingRate}
             onChange={this.onSliderChange('sharkReproducingRate')}

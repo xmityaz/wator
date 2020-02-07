@@ -34,7 +34,7 @@ export class EvolutionControls extends React.Component<EvolutionControlsProps> {
         <div>
           <label>Shark pregnancy rate</label>
           <SliderWithTooltip
-            min={120}
+            min={80}
             max={150}
             value={values.sharkReproducingRate}
             onChange={this.onSliderChange('sharkReproducingRate')}

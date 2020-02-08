@@ -6,6 +6,7 @@ import {Playground} from './playground';
 import {EvolutionControls} from '../EvolutionControls/EvolutionControls';
 import {StartControls} from '../StartControls/StartControls';
 import wizardStyles from '../Wizard/Wizard.module.scss';
+import wizardPageStyles from '../WizardPage/WizardPage.module.scss';
 
 export type OceanProps = {
   withControls: boolean;
@@ -19,6 +20,8 @@ export type OceanState = {
 };
 
 const MAX_HEIGHT = 160;
+const CONTROLS_WIDTH = 240; // 200 width + 40 margin
+const SCROLL_MARGIN = 1;
 
 export class Ocean extends React.Component<OceanProps, OceanState> {
   private playground: Playground;
@@ -56,14 +59,17 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
 
   private getFittableSize = (): Size => {
     const {brickSize} = this.state.config;
-    const wizEl = document.getElementsByClassName(wizardStyles.content)[0];
-    const pageEl = wizEl.lastElementChild as HTMLElement;
-    const clientRect = pageEl.getBoundingClientRect();
-    const controlsWidth = 200 / brickSize.width;
+    const pageEl = document.getElementsByClassName(wizardPageStyles.root)[0];
+    const wizEl = document.getElementsByClassName(wizardStyles.content)[0].lastElementChild as HTMLElement;
+
+    const pageRect = pageEl.getBoundingClientRect();
+    const wizRect = wizEl.getBoundingClientRect();
+    const controlsWidth = CONTROLS_WIDTH / brickSize.width;
 
     return {
-      width: Math.floor(clientRect.width / brickSize.width) - controlsWidth,
-      height: Math.min(MAX_HEIGHT, Math.floor(clientRect.height / brickSize.height))
+      width: Math.floor(pageRect.width / brickSize.width) - controlsWidth,
+      height:
+        Math.min(MAX_HEIGHT - brickSize.height, Math.floor(wizRect.height / brickSize.height)) - SCROLL_MARGIN
     };
   };
 

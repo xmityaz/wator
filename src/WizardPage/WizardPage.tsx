@@ -15,9 +15,10 @@ export const WizardPage: React.FC<WizardPageProps> = ({children, isActive}) => {
       ? React.cloneElement(child, {isActive})
       : child;
   });
+  const className = s.root + (!isActive ? ` ${s.inactive}` : '');
 
   return (
-    <div className={s.root}>
+    <div className={className}>
       <div className={s.pageContent}>{childrenWithInjectedProps}</div>
     </div>
   );

@@ -34,13 +34,7 @@ $header-height: 115px;
   }
 }
 
-.nextButton {
-  height: 40px;
-  width: 120px;
-
-  border: 2px solid #666;
-  border-radius: 20px;
-  background-color: transparent;
-
-  font-size: 20px;
+.illustration {
+  display: flex;
+  justify-content: center;
 }

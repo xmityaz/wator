@@ -1,0 +1,78 @@
+.root {
+  margin-bottom: 24px;
+
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button {
+  // TODO: Consider to have global style for it
+
+  --color: #fff;
+  --color-hover: var(--color);
+  --background: #666;
+  --background-hover: var(--background);
+  --hover-back: #6d58ff;
+  --hover-front: #5c86ff;
+  padding: 8px 28px;
+  border-radius: 20px;
+  line-height: 24px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border: none;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  color: var(--c, var(--color));
+  background: var(--b, var(--background));
+  transition: color 0.2s linear var(--c-d, 0.2s), background 0.3s linear var(--b-d, 0.2s);
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    background: var(--pb, var(--hover-back));
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 200%;
+    border-radius: var(--br, 40%);
+    transform: translateY(var(--y, 50%));
+    transition: transform var(--d, 0.4s) ease-in var(--d-d, 0s), border-radius 0.5s ease var(--br-d, 0.08s);
+  }
+  &:after {
+    --pb: var(--hover-front);
+    --d: 0.44s;
+  }
+
+  span {
+    z-index: 1;
+    position: relative;
+    display: flex;
+  }
+
+  &.in {
+    --name: move;
+    &:not(.out) {
+      --c: var(--color-hover);
+      --b: var(--background-hover);
+      &:before,
+      &:after {
+        --y: 0;
+        --br: 5%;
+      }
+      &:after {
+        --br: 10%;
+        --d-d: 0.02s;
+      }
+    }
+    &.out {
+      --name: move-out;
+      &:before {
+        --d-d: 0.06s;
+      }
+    }
+  }
+}

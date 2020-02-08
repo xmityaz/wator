@@ -7,6 +7,7 @@ import {WizardPage} from '../WizardPage/WizardPage';
 import {Navigation} from '../Navigation/Navigation';
 import {Dave} from '../icons/Dave';
 import {Ed} from '../icons/Ed';
+import {NextButton} from '../NextButton/NextButton';
 
 export class Wizard extends React.Component {
   render() {
@@ -14,20 +15,35 @@ export class Wizard extends React.Component {
       <div className={s.root}>
         <header className={s.header}>Wator</header>
 
-        <StepWizard className={s.content} nav={<Navigation />}>
+        <StepWizard className={s.content} nav={<Navigation />} isLazyMount={false}>
           <WizardPage>
             <div>
-              It all started in 1984 when one god-like creature who lived in our neighbor galaxy. He just
-              returned home after visiting Earth. And he was depressed. His own galaxy was beautiful- it had
-              stunning nebulas, one of the biggest and shiniest quasars in the universe and neutron stars
-              spinning million times per second. But there was no life in it like there was on Earth. Now he
-              saw it clearly. All he wanted now was to create life. He started by creating a planet. He knew
-              all life on Earth began in the water so he filled his planet with a crystal blue ocean that
-              covered every bit of the land. And then he created Dave, a fish. He also filled his ocean with
-              endless plankton so that Dave never dies from hunger.
+              <p>
+                It happened some time ago in a galaxy nearby. This galaxy was created and inhabited by a
+                powerful space sprit. He looked like a giant misty pillow with stellar background shining
+                through him. The spirit called himself God while other spirits from neighbour galaxies called
+                him simply Josh.
+              </p>
+              <p>
+                Josh has just returned home after visiting Earth. Heavily, like a rainy cloud he drifted
+                through the void. He was thinking about life. The Earth was swarming with life, yet not a
+                single planet in his own galaxy had even a spark of it. All the stars he created were shining
+                in vane.
+              </p>
+              <p>
+                He was passing a system with a small yellow star similar to the Sun when he started glowing
+                with an idea. He ought to create the life of his own.
+              </p>
+              <p>
+                First he created a small planet on its orbit. He knew all life on Earth began in water so he
+                filled his planet with a crystal blue ocean that covered every bit of the rocky land. The he
+                filled his ocean with endless tiny weed so that no life ever dies from hunger. And then he
+                created Dave, a fish.
+              </p>
             </div>
 
             <Dave />
+
           </WizardPage>
 
           <WizardPage>

@@ -9,10 +9,10 @@ export type WizardPageProps = {
   isActive?: boolean;
 };
 
-export const WizardPage: React.FC<WizardPageProps> = ({children, isActive}) => {
+export const WizardPage: React.FC<WizardPageProps> = ({children, isActive, nextStep}) => {
   const childrenWithInjectedProps = React.Children.map(children, child => {
     return child && React.isValidElement(child) && typeof child.type !== 'string'
-      ? React.cloneElement(child, {isActive})
+      ? React.cloneElement(child, {isActive, nextStep})
       : child;
   });
   const className = s.root + (!isActive ? ` ${s.inactive}` : '');

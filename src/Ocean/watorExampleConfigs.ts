@@ -11,7 +11,8 @@ export const configOneFish: Config = {
     sharkMaxEnergy: 0,
     gameSpeed: 120
   },
-  startParams: {startFishNumber: 1, startSharkNumber: 0}
+  startParams: {startFishNumber: 1, startSharkNumber: 0},
+  exitConditions: ['timeout']
 };
 
 export const configManyFish: Config = {
@@ -23,7 +24,8 @@ export const configManyFish: Config = {
     sharkMaxEnergy: 0,
     gameSpeed: 60
   },
-  startParams: {startFishNumber: 1, startSharkNumber: 0}
+  startParams: {startFishNumber: 2, startSharkNumber: 0},
+  exitConditions: ['overpopulation']
 };
 
 export const configDoomed: Config = {
@@ -35,7 +37,8 @@ export const configDoomed: Config = {
     sharkMaxEnergy: 29,
     gameSpeed: 80
   },
-  startParams: {startFishNumber: 100, startSharkNumber: 500}
+  startParams: {startFishNumber: 100, startSharkNumber: 500},
+  exitConditions: ['overpopulation', 'extinction']
 };
 
 export const configSandbox: Config = {

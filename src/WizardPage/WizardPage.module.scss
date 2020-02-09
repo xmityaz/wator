@@ -1,4 +1,8 @@
 .root {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  
   width: 740px;
   margin: 0 auto;
 
@@ -15,6 +19,7 @@
 }
 
 .pageContent {
+  position: relative;
   text-align: left;
   color: #2f2f2f;
   font-size: 21px;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {EvolutionParams, Config, StartParams, Size, ExitConditions} from './Ocean.types';
+import {EvolutionParams, Config, StartParams, Size} from './Ocean.types';
 import s from './Ocean.module.scss';
 import {processDay, PetMap, initializePetMap} from './logic';
 import {Playground} from './playground';

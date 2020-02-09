@@ -3,6 +3,7 @@ import s from './NextButton.module.scss';
 
 export type NextButtonProps = {
   nextStep?: () => void;
+  forOcean?: boolean;
   children: string;
 };
 
@@ -24,13 +25,14 @@ export class NextButton extends React.Component<NextButtonProps, NextButtonState
   };
 
   render() {
-    const {nextStep, children} = this.props;
+    const {nextStep, forOcean, children} = this.props;
     const {hovered} = this.state;
 
+    const rootClassName = s.root + (forOcean ? ` ${s.forOcean}` : '');
     const buttonClassName = s.button + (hovered ? ` ${s.in}` : '');
 
     return (
-      <div className={s.root}>
+      <div className={rootClassName}>
         <button
           className={buttonClassName}
           onClick={nextStep}

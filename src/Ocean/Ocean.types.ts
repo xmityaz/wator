@@ -13,10 +13,13 @@ export type StartParams = {
   startSharkNumber: number;
 };
 
+export type ExitConditions = 'timeout' | 'overpopulation' | 'extinction';
+
 export type Config = {
   brickSize: Size;
   boardSize: Size;
   evolutionParams: EvolutionParams;
   startParams: StartParams;
   rectMode?: boolean;
+  exitConditions?: ExitConditions[];
 };

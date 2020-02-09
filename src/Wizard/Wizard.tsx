@@ -9,13 +9,47 @@ import {Dave} from '../icons/Dave';
 import {Ed} from '../icons/Ed';
 import {NextButton} from '../NextButton/NextButton';
 
-export class Wizard extends React.Component {
+export type WizardState = {
+  showOneFishNext: boolean;
+  showManyFishNext: boolean;
+  showDoomedNext: boolean;
+};
+
+export class Wizard extends React.Component<{}, WizardState> {
+  private oneFishExit = () => this.setState({showOneFishNext: true});
+  private manyFishExit = () => this.setState({showManyFishNext: true});
+  private doomedExit = () => this.setState({showDoomedNext: true});
+
+  private cleanState = () =>
+    this.setState({
+      showOneFishNext: false,
+      showManyFishNext: false,
+      showDoomedNext: false
+    });
+
+  constructor(props: {}) {
+    super(props);
+
+    this.state = {
+      showOneFishNext: false,
+      showManyFishNext: false,
+      showDoomedNext: false
+    };
+  }
+
   render() {
+    const {showOneFishNext, showManyFishNext, showDoomedNext} = this.state;
+
     return (
       <div className={s.root}>
         <header className={s.header}>Wator</header>
 
-        <StepWizard className={s.content} nav={<Navigation />} isLazyMount={false}>
+        <StepWizard
+          className={s.content}
+          nav={<Navigation />}
+          isLazyMount={false}
+          onStepChange={this.cleanState}
+        >
           <WizardPage>
             <p>
               It happened some time ago in a galaxy nearby. This galaxy was created and inhabited by a
@@ -32,6 +66,10 @@ export class Wizard extends React.Component {
               He was passing a system with a small yellow star similar to the Sun when he started glowing with
               an idea. He ought to create the life of his own.
             </p>
+            <NextButton>And then...</NextButton>
+          </WizardPage>
+
+          <WizardPage>
             <p>
               First he created a small planet on its orbit. He knew all life on Earth began in water so he
               filled his planet with a crystal blue ocean that covered every bit of the rocky land. The he
@@ -47,7 +85,9 @@ export class Wizard extends React.Component {
           </WizardPage>
 
           <WizardPage>
-            <Ocean withControls={false} initialConfig={configOneFish} />
+            <Ocean withControls={false} initialConfig={configOneFish} onExit={this.oneFishExit} />
+
+            {showOneFishNext && <NextButton forOcean={true}>Proceed</NextButton>}
           </WizardPage>
 
           <WizardPage>
@@ -61,41 +101,45 @@ export class Wizard extends React.Component {
           </WizardPage>
 
           <WizardPage>
-            <Ocean withControls={false} initialConfig={configManyFish} />
+            <Ocean withControls={false} initialConfig={configManyFish} onExit={this.manyFishExit} />
+
+            {showManyFishNext && <NextButton forOcean={true}>Proceed</NextButton>}
           </WizardPage>
 
           <WizardPage>
-            <div>
-              <p>
-                Oh no, Dave went out of control and kept reproducing until the ocean became overcrowded. He
-                wanted Dave to be happy but instead he condemned him and all his family to miserable existence
-                in this uninhabitable world. Josh was furious. He had to fix this.
-              </p>
+            <p>
+              Oh no, Dave went out of control and kept reproducing until the ocean became overcrowded. He
+              wanted Dave to be happy but instead he condemned him and all his family to miserable existence
+              in this uninhabitable world. Josh was furious. He had to fix this.
+            </p>
 
-              <p>
-                Storming in rage he evaporated the ocean leaving the planet sterile. When his thoughts where
-                clear again he made a new ocean and a new Dave. He decided to make life balance life.
-              </p>
+            <p>
+              Storming in rage he evaporated the ocean leaving the planet sterile. When his thoughts where
+              clear again he made a new ocean and a new Dave. He decided to make life balance life.
+            </p>
+          </WizardPage>
 
-              <p>
-                He created Ed, a shark, a necessary evil. Ed would not eat weed like Dave, he would eat Dave.
-              </p>
-
-              <p>
-                Josh knew he should be careful not to make old mistakes. He let sharks breed, but he also made
-                them die if they don't eat. This way it was just.
-              </p>
-            </div>
+          <WizardPage>
+            <p>
+              He created Ed, a shark, a necessary evil. Ed would not eat weed like Dave, he would eat Dave.
+            </p>
 
             <div className={s.illustration}>
               <Ed />
             </div>
 
-            <NextButton>But is that really that simple?</NextButton>
+            <p>
+              Josh knew he should be careful not to make old mistakes. He let sharks breed, but he also made
+              them die if they don't eat. This way it was just.
+            </p>
+
+            <NextButton>But is it really that simple?</NextButton>
           </WizardPage>
 
           <WizardPage>
-            <Ocean withControls={false} initialConfig={configDoomed} />
+            <Ocean withControls={false} initialConfig={configDoomed} onExit={this.doomedExit} />
+
+            {showDoomedNext && <NextButton forOcean={true}>Proceed</NextButton>}
           </WizardPage>
 
           <WizardPage>

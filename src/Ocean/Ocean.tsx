@@ -1,5 +1,5 @@
 import React from 'react';
-import {EvolutionParams, Config, StartParams, Size} from './Ocean.types';
+import {EvolutionParams, Config, StartParams, Size, ExitConditions} from './Ocean.types';
 import s from './Ocean.module.scss';
 import {processDay, PetMap, initializePetMap} from './logic';
 import {Playground} from './playground';
@@ -7,14 +7,17 @@ import {EvolutionControls} from '../EvolutionControls/EvolutionControls';
 import {StartControls} from '../StartControls/StartControls';
 import wizardStyles from '../Wizard/Wizard.module.scss';
 import wizardPageStyles from '../WizardPage/WizardPage.module.scss';
+import {shouldExit} from './exitConditionsLogic';
 
 export type OceanProps = {
   withControls: boolean;
   initialConfig: Config;
   isActive?: boolean;
+  onExit?: () => void;
 };
 
 export type OceanState = {
+  exitProcessed: boolean;
   isRunning: boolean;
   config: Config;
 };
@@ -30,6 +33,7 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
   private petMap: PetMap;
 
   private gameLoop: any;
+  private stepsCounter = 0;
 
   private canvas: HTMLCanvasElement;
 
@@ -41,7 +45,22 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
     this.canvas = el;
   };
 
+  private processExitConditions = () => {
+    if (
+      this.props.onExit &&
+      this.state.config.exitConditions &&
+      !this.state.exitProcessed &&
+      shouldExit({stepsCounter: this.stepsCounter, petMap: this.petMap, config: this.state.config})
+    ) {
+      this.props.onExit();
+      this.setState({exitProcessed: true});
+    }
+  };
+
   private step = () => {
+    this.processExitConditions();
+    this.stepsCounter++;
+
     this.state.config.rectMode
       ? this.playground.drawRectPetMap(this.petMap, this.state.config)
       : this.playground.drawPetMap(this.petMap, this.state.config);
@@ -49,6 +68,9 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
   };
 
   private onStart = () => {
+    this.setState({exitProcessed: false});
+    this.stepsCounter = 0;
+
     this.petMap = initializePetMap(this.state.config);
     this.play();
   };
@@ -112,7 +134,7 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
   constructor(props: OceanProps) {
     super(props);
 
-    this.state = {isRunning: false, config: this.props.initialConfig};
+    this.state = {isRunning: false, exitProcessed: false, config: this.props.initialConfig};
   }
 
   componentDidMount() {

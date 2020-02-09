@@ -29,7 +29,7 @@ export const configManyFish: Config = {
 };
 
 export const configDoomed: Config = {
-  brickSize: {width: 4, height: 4},
+  brickSize: {width: 20, height: 20},
   boardSize: {width: 185, height: 100},
   evolutionParams: {
     fishReproducingRate: 80,

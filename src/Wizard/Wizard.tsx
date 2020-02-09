@@ -117,6 +117,8 @@ export class Wizard extends React.Component<{}, WizardState> {
               Storming in rage he evaporated the ocean leaving the planet sterile. When his thoughts where
               clear again he made a new ocean and a new Dave. He decided to make life balance life.
             </p>
+
+            <NextButton>Seek for the balance</NextButton>
           </WizardPage>
 
           <WizardPage>

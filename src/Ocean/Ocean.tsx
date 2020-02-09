@@ -8,6 +8,8 @@ import {StartControls} from '../StartControls/StartControls';
 import wizardStyles from '../Wizard/Wizard.module.scss';
 import wizardPageStyles from '../WizardPage/WizardPage.module.scss';
 import {shouldExit} from './exitConditionsLogic';
+import {PlayButton} from '../PlayButton/PlayButton';
+import {ResetButton} from '../ResetButton/ResetButton';
 
 export type OceanProps = {
   withControls: boolean;
@@ -19,6 +21,7 @@ export type OceanProps = {
 export type OceanState = {
   exitProcessed: boolean;
   isRunning: boolean;
+  initialized: boolean;
   config: Config;
 };
 
@@ -67,8 +70,16 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
     processDay(this.petMap, this.state.config);
   };
 
+  private onPlayButtonClick = () => {
+    if (!this.state.initialized) {
+      this.onStart();
+    } else {
+      this.state.isRunning ? this.pause() : this.play();
+    }
+  };
+
   private onStart = () => {
-    this.setState({exitProcessed: false});
+    this.setState({exitProcessed: false, initialized: true});
     this.stepsCounter = 0;
 
     this.petMap = initializePetMap(this.state.config);
@@ -106,6 +117,9 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
   };
 
   reset = ({startParams, evolutionParams}: Partial<Config> = {}) => {
+    this.pause();
+
+    this.setState({initialized: false});
     this.setConfig({
       startParams: {...this.state.config.startParams, ...startParams},
       evolutionParams: {...this.state.config.evolutionParams, ...evolutionParams}
@@ -134,7 +148,12 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
   constructor(props: OceanProps) {
     super(props);
 
-    this.state = {isRunning: false, exitProcessed: false, config: this.props.initialConfig};
+    this.state = {
+      isRunning: false,
+      exitProcessed: false,
+      initialized: false,
+      config: this.props.initialConfig
+    };
   }
 
   componentDidMount() {
@@ -151,8 +170,8 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
   }
 
   render() {
-    const {withControls} = this.props;
-    const {isRunning, config} = this.state;
+    const {withControls, isActive} = this.props;
+    const {isRunning, config, exitProcessed} = this.state;
 
     return (
       <div className={s.root}>
@@ -163,29 +182,24 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
             height={config && config.brickSize.height * config.boardSize.height}
           />
 
-          {!isRunning && (
+          {!isRunning && isActive && !withControls && (
             <div className={s.overlay}>
-              <div className="control-buttons">
-                <button className={s.btn} onClick={this.onStart}>
-                  Start
-                </button>
-                {/* <button id="reset-button">Reset</button> */}
-              </div>
+              <PlayButton isPlaying={false} onClick={this.onStart} />
             </div>
           )}
 
-          {isRunning && (
-            <div className={s.pauseOverlay}>
-              <div className={s.pause} onClick={this.pause} />
-            </div>
-          )}
+          {exitProcessed && <div className={s.exitOverlay} />}
         </div>
 
         {withControls && (
           <div className={s.controls}>
+            <div className={s.controlsButtons}>
+              <PlayButton isPlaying={isRunning} onClick={this.onPlayButtonClick} />
+              <ResetButton onClick={this.reset} />
+            </div>
+
             <StartControls
               className={s.startControls}
-              disabled={isRunning}
               onChange={this.setStartParams}
               values={this.state.config.startParams}
             />

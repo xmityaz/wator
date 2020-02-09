@@ -6,7 +6,7 @@
   "scripts": {
     "test": "test",
     "start": "react-scripts start --isolatedModules=false",
-    "build": "react-scripts build"
+    "build": "react-scripts build | cpx \"build/**\" \".\""
   },
   "keywords": [
     "testris",
@@ -23,6 +23,7 @@
     "react-step-wizard": "^5.3.0"
   },
   "devDependencies": {
+    "cpx": "^1.5.0",
     "@types/jest": "24.0.22",
     "@types/jquery": "^3.3.30",
     "@types/node": "12.12.7",

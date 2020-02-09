@@ -29,7 +29,7 @@ export const configManyFish: Config = {
 };
 
 export const configDoomed: Config = {
-  brickSize: {width: 8, height: 8},
+  brickSize: {width: 4, height: 4},
   boardSize: {width: 185, height: 100},
   evolutionParams: {
     fishReproducingRate: 80,
@@ -45,9 +45,9 @@ export const configSandbox: Config = {
   brickSize: {width: 4, height: 4},
   boardSize: {width: 185, height: 100},
   evolutionParams: {
-    fishReproducingRate: 100,
-    sharkReproducingRate: 80,
-    sharkMaxEnergy: 79,
+    fishReproducingRate: 80,
+    sharkReproducingRate: 150,
+    sharkMaxEnergy: 120,
     gameSpeed
   },
   startParams: {startFishNumber: 2000, startSharkNumber: 2000},

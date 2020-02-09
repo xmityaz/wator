@@ -4,7 +4,6 @@ import Slider, {createSliderWithTooltip} from 'rc-slider';
 
 export type StartControlsProps = {
   className?: string;
-  disabled: boolean;
   values: StartParams;
   onChange: (startParams: Partial<StartParams>) => void;
 };
@@ -17,7 +16,7 @@ export class StartControls extends React.Component<StartControlsProps> {
   };
 
   render() {
-    const {disabled, values, className} = this.props;
+    const {values, className} = this.props;
 
     return (
       <form className={className}>
@@ -28,7 +27,6 @@ export class StartControls extends React.Component<StartControlsProps> {
             max={2500}
             value={values.startFishNumber}
             onChange={this.onSliderChange('startFishNumber')}
-            disabled={disabled}
           />
         </div>
         <div>
@@ -38,7 +36,6 @@ export class StartControls extends React.Component<StartControlsProps> {
             max={2500}
             value={values.startSharkNumber}
             onChange={this.onSliderChange('startSharkNumber')}
-            disabled={disabled}
           />
         </div>
       </form>

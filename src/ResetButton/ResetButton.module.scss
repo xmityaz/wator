@@ -1,0 +1,79 @@
+.root {
+  --play: #6d58ff;
+  --play-shadow: #{rgba(#6d58ff, 0.24)};
+  --pause: #666;
+  --pause-shadow: #{rgba(#666, 0.24)};
+  --color: #fff;
+  margin: 0;
+  line-height: 20px;
+  font-size: 14px;
+  padding: 11px 16px 11px 36px;
+  border-radius: 22px;
+  border: none;
+  background: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  position: relative;
+  backface-visibility: hidden;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  transform: translateY(var(--y, 0)) translateZ(0);
+  color: var(--color);
+  font-weight: bold;
+  font-style: normal;
+  backface-visibility: hidden;
+  opacity: var(--o, 1);
+  box-shadow: 0 var(--shadow-y, 6px) var(--shadow-b, 16px) var(--shadow, var(--pause-shadow));
+  background: radial-gradient(circle, var(--play) 0%, var(--play) 50%, var(--pause) 50.5%, var(--pause) 100%);
+  background-size: 400% 400%;
+  background-position: 0% 0%;
+  transition: background 0.8s, box-shadow 0.3s, transform 0.3s;
+  &:hover {
+    --y: -1px;
+    --shadow-y: 8px;
+    --shadow-b: 20px;
+  }
+  &:active {
+    --y: 1px;
+    --shadow-y: 4px;
+    --shadow-b: 12px;
+  }
+  &:before {
+    content: '';
+
+    position: absolute;
+    left: 9px;
+    bottom: 15px;
+    transform: rotate(225deg);
+    
+    width: 0;
+    height: 0;
+
+    border-width: 4px;
+    border-style: solid;
+    border-color: transparent;
+    border-left-color: white;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 9px;
+
+    width: 12px;
+    height: 12px;
+    margin: 4px;
+
+    background: transparent;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 50%;
+    border-left-color: transparent;
+  }
+  &:after {
+    --width: 3px;
+    --x: 6px;
+  }
+}

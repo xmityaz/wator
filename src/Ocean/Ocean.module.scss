@@ -33,7 +33,7 @@
   background-color: rgba(55, 55, 55, 0.2);
 }
 
-.pauseOverlay {
+.exitOverlay {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -41,50 +41,18 @@
   right: 0;
   z-index: 1;
 
-  padding: 20px;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.pauseOverlay:hover > .pause {
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
-}
-
-.pauseOverlay:hover > .stop {
-  display: block;
-}
-
-.pause {
-  box-sizing: border-box;
-
-  display: none;
-  height: 60px;
-  width: 60px;
-
-  border-right: 20px solid #999;
-  border-left: 20px solid #999;
-
-  cursor: pointer;
-}
-
-.btn {
-  // TODO: Consider to have global style for it
-  height: 40px;
-  width: 120px;
-
-  border: 2px solid #333;
-  border-radius: 20px;
-  background-color: transparent;
-
-  font-size: 20px;
-  color: #333;
+  background-color: rgba(55, 55, 55, 0.1);
 }
 
 .controls {
   margin-left: 20px;
   width: 200px;
+}
+
+.controlsButtons {
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .startControls {

@@ -13,6 +13,19 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
 
+    <div id="fb-root"></div>
+    <script>
+      (function(d, s, id) {
+        var js,
+          fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0';
+        fjs.parentNode.insertBefore(js, fjs);
+      })(document, 'script', 'facebook-jssdk');
+    </script>
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <% if (process.env.NODE_ENV === 'production') { %>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-158072630-1"></script>
@@ -25,6 +38,35 @@
 
       gtag('config', 'UA-158072630-1');
     </script>
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+      (function(m, e, t, r, i, k, a) {
+        m[i] =
+          m[i] ||
+          function() {
+            (m[i].a = m[i].a || []).push(arguments);
+          };
+        m[i].l = 1 * new Date();
+        (k = e.createElement(t)),
+          (a = e.getElementsByTagName(t)[0]),
+          (k.async = 1),
+          (k.src = r),
+          a.parentNode.insertBefore(k, a);
+      })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+      ym(57464437, 'init', {
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true,
+        webvisor: true
+      });
+    </script>
+    <noscript
+      ><div>
+        <img src="https://mc.yandex.ru/watch/57464437" style="position:absolute; left:-9999px;" alt="" /></div
+    ></noscript>
+    <!-- /Yandex.Metrika counter -->
     <% } %>
   </body>
 </html>

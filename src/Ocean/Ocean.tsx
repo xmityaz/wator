@@ -98,7 +98,7 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
 
     const pageRect = pageEl.getBoundingClientRect();
     const wizRect = wizEl.getBoundingClientRect();
-    const controlsWidth = CONTROLS_WIDTH / brickSize.width;
+    const controlsWidth = Math.ceil(CONTROLS_WIDTH / brickSize.width);
 
     return {
       width: Math.floor(pageRect.width / brickSize.width) - controlsWidth,

@@ -84,7 +84,7 @@ export class Wizard extends React.Component<{}, WizardState> {
             <NextButton>Behold the Genesis</NextButton>
           </WizardPage>
 
-          <WizardPage>
+          <WizardPage ocean={true}>
             <Ocean withControls={false} initialConfig={configOneFish} onExit={this.oneFishExit} />
 
             {showOneFishNext && <NextButton forOcean={true}>Proceed</NextButton>}
@@ -100,7 +100,7 @@ export class Wizard extends React.Component<{}, WizardState> {
             <NextButton>How Dave is craving his purpose?</NextButton>
           </WizardPage>
 
-          <WizardPage>
+          <WizardPage ocean={true}>
             <Ocean withControls={false} initialConfig={configManyFish} onExit={this.manyFishExit} />
 
             {showManyFishNext && <NextButton forOcean={true}>Proceed</NextButton>}
@@ -138,7 +138,7 @@ export class Wizard extends React.Component<{}, WizardState> {
             <NextButton>But is it really that simple?</NextButton>
           </WizardPage>
 
-          <WizardPage>
+          <WizardPage ocean={true}>
             <Ocean withControls={false} initialConfig={configDoomed} onExit={this.doomedExit} />
 
             {showDoomedNext && <NextButton forOcean={true}>Proceed</NextButton>}
@@ -154,7 +154,7 @@ export class Wizard extends React.Component<{}, WizardState> {
             <NextButton>Let's give a helping hand</NextButton>
           </WizardPage>
 
-          <WizardPage>
+          <WizardPage ocean={true}>
             <Ocean withControls={true} initialConfig={configSandbox} />
           </WizardPage>
         </StepWizard>

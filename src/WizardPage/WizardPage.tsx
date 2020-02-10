@@ -7,15 +7,16 @@ export type WizardPageProps = {
   // Wizard injected props
   nextStep?: () => void;
   isActive?: boolean;
+  ocean?: boolean;
 };
 
-export const WizardPage: React.FC<WizardPageProps> = ({children, isActive, nextStep}) => {
+export const WizardPage: React.FC<WizardPageProps> = ({children, isActive, ocean, nextStep}) => {
   const childrenWithInjectedProps = React.Children.map(children, child => {
     return child && React.isValidElement(child) && typeof child.type !== 'string'
       ? React.cloneElement(child, {isActive, nextStep})
       : child;
   });
-  const className = s.root + (!isActive ? ` ${s.inactive}` : '');
+  const className = s.root + (!isActive ? ` ${s.inactive}` : '') + (ocean ? ` ${s.ocean}` : '');
 
   return (
     <div className={className}>

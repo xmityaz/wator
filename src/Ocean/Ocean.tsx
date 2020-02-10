@@ -26,7 +26,7 @@ export type OceanState = {
 };
 
 const MAX_HEIGHT = 160;
-const CONTROLS_WIDTH = 240; // 200 width + 40 margin
+const CONTROLS_WIDTH = 255; // 215 width + 40 margin
 const SCROLL_MARGIN = 1;
 
 export class Ocean extends React.Component<OceanProps, OceanState> {
@@ -127,6 +127,18 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
     });
 
     this.playground = new Playground(this.state.config, this.canvas);
+
+    this.setState({exitProcessed: false, initialized: true});
+    this.stepsCounter = 0;
+
+    this.petMap = initializePetMap(this.state.config);
+
+    if (this.state.isRunning) {
+      clearInterval(this.gameLoop);
+      this.play();
+    } else {
+      this.step();
+    }
   };
 
   setEvolutionParams = (evolutionParams: Partial<EvolutionParams>) => {
@@ -206,6 +218,7 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
             />
 
             <EvolutionControls
+              className={s.evolutionControls}
               values={this.state.config.evolutionParams}
               onChange={this.setEvolutionParams}
             />

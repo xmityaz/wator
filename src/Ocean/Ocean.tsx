@@ -118,15 +118,24 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
   };
 
   reset = ({startParams, evolutionParams}: Partial<Config> = {}) => {
-    this.pause();
-
-    this.setState({initialized: false});
     this.setConfig({
       startParams: {...this.state.config.startParams, ...startParams},
       evolutionParams: {...this.state.config.evolutionParams, ...evolutionParams}
     });
 
     this.playground = new Playground(this.state.config, this.canvas);
+
+    this.setState({exitProcessed: false, initialized: true});
+    this.stepsCounter = 0;
+
+    this.petMap = initializePetMap(this.state.config);
+
+    if (this.state.isRunning) {
+      clearInterval(this.gameLoop);
+      this.play();
+    } else {
+      this.step();
+    }
   };
 
   setEvolutionParams = (evolutionParams: Partial<EvolutionParams>) => {

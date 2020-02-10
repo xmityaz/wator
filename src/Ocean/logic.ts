@@ -117,6 +117,8 @@ function processSharkMove(petMap: PetMap, position: string, config: Config): str
     shark.energy = config.evolutionParams.sharkMaxEnergy;
 
     return newPosition;
+  } else if (shark.energy > config.evolutionParams.sharkMaxEnergy) {
+    shark.energy = config.evolutionParams.sharkMaxEnergy;
   } else if (shark.energy === 0) {
     delete petMap[position];
     return null;

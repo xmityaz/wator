@@ -67,6 +67,7 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
     this.state.config.rectMode
       ? this.playground.drawRectPetMap(this.petMap, this.state.config)
       : this.playground.drawPetMap(this.petMap, this.state.config);
+
     processDay(this.petMap, this.state.config);
   };
 

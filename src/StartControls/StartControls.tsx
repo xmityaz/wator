@@ -1,6 +1,7 @@
 import React from 'react';
 import {StartParams} from '../Ocean/Ocean.types';
 import Slider, {createSliderWithTooltip} from 'rc-slider';
+import {trackStyle, handleStyle} from './styles';
 
 export type StartControlsProps = {
   className?: string;
@@ -27,6 +28,8 @@ export class StartControls extends React.Component<StartControlsProps> {
             max={2500}
             value={values.startFishNumber}
             onChange={this.onSliderChange('startFishNumber')}
+            trackStyle={trackStyle}
+            handleStyle={handleStyle}
           />
         </div>
         <div>
@@ -36,6 +39,8 @@ export class StartControls extends React.Component<StartControlsProps> {
             max={2500}
             value={values.startSharkNumber}
             onChange={this.onSliderChange('startSharkNumber')}
+            trackStyle={trackStyle}
+            handleStyle={handleStyle}
           />
         </div>
       </form>

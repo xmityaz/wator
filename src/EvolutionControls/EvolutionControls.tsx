@@ -2,6 +2,7 @@ import React from 'react';
 import Slider, {createSliderWithTooltip} from 'rc-slider';
 import {EvolutionParams} from '../Ocean/Ocean.types';
 import 'rc-slider/assets/index.css';
+import {trackStyle, handleStyle} from './styles';
 
 export type EvolutionControlsProps = {
   className?: string;
@@ -11,9 +12,25 @@ export type EvolutionControlsProps = {
 
 const SliderWithTooltip = createSliderWithTooltip(Slider);
 
+const convertToValueFromPercent = (min: number, max: number, percent: number) => {
+  const diff = max - min;
+  return (percent * 100) / diff + min;
+};
+
+const convertToPercentFromValue = (min: number, max: number, value: number) => {
+  const diff = max - min;
+  return ((value - min) * diff) / 100;
+};
+
+const getStep = (min: number, max: number) => {
+  return 100 / (max - min);
+};
+
 export class EvolutionControls extends React.Component<EvolutionControlsProps> {
-  onSliderChange = (name: string) => (value: number) => {
-    this.props.onChange({[name]: value});
+  private formatValue = (value: number) => Math.round(value);
+
+  onSliderChange = (name: string, min: number, max: number) => (value: number) => {
+    this.props.onChange({[name]: convertToValueFromPercent(min, max, value)});
   };
 
   render() {
@@ -25,39 +42,55 @@ export class EvolutionControls extends React.Component<EvolutionControlsProps> {
           <label>Fish caviar throwing</label>
 
           <SliderWithTooltip
-            min={80}
-            max={150}
-            value={values.fishReproducingRate}
-            onChange={this.onSliderChange('fishReproducingRate')}
+            min={1}
+            max={100}
+            step={getStep(80, 150)}
+            onChange={this.onSliderChange('fishReproducingRate', 80, 150)}
+            value={convertToPercentFromValue(80, 150, values.fishReproducingRate)}
+            trackStyle={trackStyle}
+            handleStyle={handleStyle}
+            tipFormatter={this.formatValue}
           />
         </div>
         <div>
           <label>Shark pregnancy rate</label>
           <SliderWithTooltip
-            min={120}
-            max={150}
-            value={values.sharkReproducingRate}
-            onChange={this.onSliderChange('sharkReproducingRate')}
+            min={1}
+            max={100}
+            step={getStep(120, 150)}
+            onChange={this.onSliderChange('sharkReproducingRate', 120, 150)}
+            value={convertToPercentFromValue(120, 150, values.sharkReproducingRate)}
+            trackStyle={trackStyle}
+            handleStyle={handleStyle}
+            tipFormatter={this.formatValue}
           />
         </div>
         <div>
           <label>Shark energy</label>
 
           <SliderWithTooltip
-            min={5}
-            max={150}
-            value={values.sharkMaxEnergy}
-            onChange={this.onSliderChange('sharkMaxEnergy')}
+            min={1}
+            max={100}
+            step={getStep(5, 105)}
+            onChange={this.onSliderChange('sharkMaxEnergy', 5, 105)}
+            value={convertToPercentFromValue(5, 105, values.sharkMaxEnergy)}
+            trackStyle={trackStyle}
+            handleStyle={handleStyle}
+            tipFormatter={this.formatValue}
           />
         </div>
         <div>
           <label>Game speed</label>
 
           <SliderWithTooltip
-            min={5}
-            max={150}
-            value={values.gameSpeed}
-            onChange={this.onSliderChange('gameSpeed')}
+            min={1}
+            max={100}
+            step={getStep(5, 105)}
+            onChange={this.onSliderChange('gameSpeed', 5, 105)}
+            value={convertToPercentFromValue(5, 105, values.gameSpeed)}
+            trackStyle={trackStyle}
+            handleStyle={handleStyle}
+            tipFormatter={this.formatValue}
           />
         </div>
       </form>

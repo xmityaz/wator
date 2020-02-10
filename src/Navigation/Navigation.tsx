@@ -26,6 +26,15 @@ export class Navigation extends React.Component<NavigationProps> {
     return (
       <footer className={s.root}>
         <div className={s.navigation}>{dots}</div>
+
+        <div className={s.facebookBtn}>
+          <div
+            className="fb-share-button"
+            data-href="https://developers.facebook.com/docs/plugins/"
+            data-layout="button"
+            data-size="large"
+          />
+        </div>
       </footer>
     );
   }

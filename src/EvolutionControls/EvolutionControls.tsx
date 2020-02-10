@@ -14,12 +14,12 @@ const SliderWithTooltip = createSliderWithTooltip(Slider);
 
 const convertToValueFromPercent = (min: number, max: number, percent: number) => {
   const diff = max - min;
-  return (percent * 100) / diff + min;
+  return Math.floor(((100 - percent) * diff) / 100) + min;
 };
 
 const convertToPercentFromValue = (min: number, max: number, value: number) => {
   const diff = max - min;
-  return ((value - min) * diff) / 100;
+  return 100 - (100 / diff) * (value - min);
 };
 
 const getStep = (min: number, max: number) => {
@@ -39,7 +39,7 @@ export class EvolutionControls extends React.Component<EvolutionControlsProps> {
     return (
       <form className={className}>
         <div>
-          <label>Fish caviar throwing</label>
+          <label>Fish reproducing rate</label>
 
           <SliderWithTooltip
             min={1}
@@ -53,20 +53,20 @@ export class EvolutionControls extends React.Component<EvolutionControlsProps> {
           />
         </div>
         <div>
-          <label>Shark pregnancy rate</label>
+          <label>Shark reproducing rate</label>
           <SliderWithTooltip
             min={1}
             max={100}
-            step={getStep(120, 150)}
-            onChange={this.onSliderChange('sharkReproducingRate', 120, 150)}
-            value={convertToPercentFromValue(120, 150, values.sharkReproducingRate)}
+            step={getStep(120, 160)}
+            onChange={this.onSliderChange('sharkReproducingRate', 120, 160)}
+            value={convertToPercentFromValue(120, 160, values.sharkReproducingRate)}
             trackStyle={trackStyle}
             handleStyle={handleStyle}
             tipFormatter={this.formatValue}
           />
         </div>
         <div>
-          <label>Shark energy</label>
+          <label>Shark hunger</label>
 
           <SliderWithTooltip
             min={1}

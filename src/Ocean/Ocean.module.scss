@@ -46,7 +46,7 @@
 
 .controls {
   margin-left: 20px;
-  width: 200px;
+  width: 215px;
 }
 
 .controlsButtons {
@@ -57,4 +57,11 @@
 
 .startControls {
   margin-bottom: 40px;
+}
+
+.evolutionControls,
+.startControls {
+  & > div:not(:last-child) {
+    margin-bottom: 8px;
+  }
 }

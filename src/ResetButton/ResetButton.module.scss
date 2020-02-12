@@ -39,14 +39,28 @@
     --shadow-y: 4px;
     --shadow-b: 12px;
   }
-  &:before {
+
+  &:hover .icon {
+    animation: spin 0.4s ease-in;
+  }
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+
+  position: absolute;
+  left: 13px;
+  top: 12px;
+
+  .iconArrow {
     content: '';
 
     position: absolute;
-    left: 9px;
-    bottom: 15px;
     transform: rotate(225deg);
-    
+    top: 6px;
+    left: -4px;
+
     width: 0;
     height: 0;
 
@@ -56,15 +70,12 @@
     border-left-color: white;
   }
 
-  &:after {
+  .iconBorder {
     content: '';
-    position: absolute;
-    left: 8px;
-    top: 9px;
+    display: block;
 
     width: 12px;
     height: 12px;
-    margin: 4px;
 
     background: transparent;
     border-width: 2px;
@@ -72,8 +83,20 @@
     border-radius: 50%;
     border-left-color: transparent;
   }
-  &:after {
+
+  .iconArrow {
     --width: 3px;
     --x: 6px;
+  }
+}
+
+@keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }

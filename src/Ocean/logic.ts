@@ -72,16 +72,19 @@ function processPetReproduce(
   petMap: PetMap,
   positionToThrowCaviarIn: string,
   position: string,
-  reproduce: () => Fish | Shark,
   {evolutionParams}: Config
 ) {
   const pet = petMap[position];
+  const petIsFish = isFish(pet);
   const reproducingRate = isFish(pet)
     ? evolutionParams.fishReproducingRate
     : evolutionParams.sharkReproducingRate;
 
   if (pet.cyclesSinceReproduce >= reproducingRate && positionToThrowCaviarIn !== position) {
-    petMap[positionToThrowCaviarIn] = reproduce();
+    petMap[positionToThrowCaviarIn] = petIsFish
+      ? {cyclesSinceReproduce: 0}
+      : {cyclesSinceReproduce: 0, energy: evolutionParams.sharkMaxEnergy};
+
     pet.cyclesSinceReproduce = 0;
   }
 }
@@ -153,26 +156,24 @@ export function initializePetMap({startParams, boardSize, evolutionParams}: Conf
 
 export function processDay(petMap: PetMap, config: Config) {
   const positions = Object.keys(petMap);
-  const fishPositions = positions.filter(position => isFish(petMap[position]));
-  const sharkPositions = positions.filter(position => !isFish(petMap[position]));
+  const fishPositions: string[] = []; // positions.filter(position => isFish(petMap[position]));
+  const sharkPositions: string[] = []; // positions.filter(position => !isFish(petMap[position]));
+
+  positions.forEach(position => {
+    isFish(petMap[position]) ? fishPositions.push(position) : sharkPositions.push(position);
+  });
 
   fishPositions.forEach(position => {
     const newPosition = processFishMove(petMap, position, config);
     petMap[newPosition].cyclesSinceReproduce++;
-    processPetReproduce(petMap, position, newPosition, () => ({cyclesSinceReproduce: 0}), config);
+    processPetReproduce(petMap, position, newPosition, config);
   });
 
   sharkPositions.forEach(position => {
     const newPosition = processSharkMove(petMap, position, config);
     if (newPosition) {
       petMap[newPosition].cyclesSinceReproduce++;
-      processPetReproduce(
-        petMap,
-        position,
-        newPosition,
-        () => ({cyclesSinceReproduce: 0, energy: config.evolutionParams.sharkMaxEnergy}),
-        config
-      );
+      processPetReproduce(petMap, position, newPosition, config);
     }
   });
 }

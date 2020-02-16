@@ -1,7 +1,7 @@
 import React from 'react';
 import {EvolutionParams, Config, StartParams, Size} from './Ocean.types';
 import s from './Ocean.module.scss';
-import {processDay, PetMap, initializePetMap} from './logic';
+import {processDay, PetArr, initializePetArr} from './logic';
 import {Playground} from './playground';
 import {EvolutionControls} from '../EvolutionControls/EvolutionControls';
 import {StartControls} from '../StartControls/StartControls';
@@ -33,7 +33,7 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
   private playground: Playground;
   private setPlayground = (playground: Playground) => (this.playground = playground);
 
-  private petMap: PetMap;
+  private petArr: PetArr;
 
   private gameLoop: any;
   private stepsCounter = 0;
@@ -53,7 +53,7 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
       this.props.onExit &&
       this.state.config.exitConditions &&
       !this.state.exitProcessed &&
-      shouldExit({stepsCounter: this.stepsCounter, petMap: this.petMap, config: this.state.config})
+      shouldExit({stepsCounter: this.stepsCounter, petArr: this.petArr, config: this.state.config})
     ) {
       this.props.onExit();
       this.setState({exitProcessed: true});
@@ -65,10 +65,10 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
     this.stepsCounter++;
 
     this.state.config.rectMode
-      ? this.playground.drawRectPetMap(this.petMap, this.state.config)
-      : this.playground.drawPetMap(this.petMap, this.state.config);
+      ? this.playground.drawRectPetArr(this.petArr, this.state.config)
+      : this.playground.drawPetArr(this.petArr, this.state.config);
 
-    processDay(this.petMap, this.state.config);
+    processDay(this.petArr, this.state.config);
   };
 
   private onPlayButtonClick = () => {
@@ -83,7 +83,7 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
     this.setState({exitProcessed: false, initialized: true});
     this.stepsCounter = 0;
 
-    this.petMap = initializePetMap(this.state.config);
+    this.petArr = initializePetArr(this.state.config);
     this.play();
   };
 
@@ -131,7 +131,7 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
     this.setState({exitProcessed: false, initialized: true});
     this.stepsCounter = 0;
 
-    this.petMap = initializePetMap(this.state.config);
+    this.petArr = initializePetArr(this.state.config);
 
     if (this.state.isRunning) {
       clearInterval(this.gameLoop);

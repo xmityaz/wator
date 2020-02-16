@@ -1,11 +1,11 @@
-import {isFish, PetMap} from './logic';
+import {isFish, PetArr, getIndexFromXY} from './logic';
 import {Config, Size} from './Ocean.types';
 
 const fishBase64 =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAABBUlEQVRIS+2UuxHCMAyGpSoFk7AALQUtRcZgCuZgixRMkBGosghNKnF+yNiO35dzFTW5JL/1Wb9sIXQI7MCAA0La5iInikRe34he6gs+1CPX16xAJ+CdQyFA6E1uH2Lb8E88D8HN4nUNVUI0D2D/syF0n0Z4jxMgIghhLgIQCYBldax0IERq8wayrADnNEyD5DoGiDWxSqTOiLmMApCpmLXJSmIWNYBCldD3dpEbOj0/21bsBJEuBUENgFjjmwG1jd82PXeGxUl070r2CHNKJbRDWOaFHinVl9FO44DYEh4pLEzMruRYcUDWC19aMxxlCTsPyBw82b3SKVxwBOKSA1JlXxe7fkbZeRqVRmsFAAAAAElFTkSuQmCC';
 const sharkBase64 =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAABI0lEQVRIS92VsRHCMAxF444FoIRRYBkYCpaBUaCEBejMycn3yUaS5RQ5jjQJVuSnL/2YMCxwhQUYw89AoqHWKhJ5oaUkro9XlfG6HCjG98gFUR7iZiUcQAlIrNcn0FdBLYipoJaGAqR1KkBS0gXAxu/HfVhtdwVHUzILoIFMCAVjHGe4Od3UwT/P+xQLIaR51WokSFYxBRPIgqAYQAgIEHdeYT+4BhBKclg4qcF73RALgB6iIA/E89EVs3EozF3CgwjhbYMRMGgQJVh9EqgQPnwabA2h37Quzc0F4QBUjk35natSjprR4pPsol3cmpICtAoKuYUp5lbC28GfaRMpNluJNGTJDLOVcL8aDsqveZSkLqiHVH+gON1b/4z92wsZ/wP5APhM3xrh3vlOAAAAAElFTkSuQmCC';
-
+  
 export class Playground {
   private ctx: CanvasRenderingContext2D;
 
@@ -41,7 +41,7 @@ export class Playground {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   };
 
-  drawRectPetMap = (petMap: PetMap, {boardSize, brickSize}: Config) => {
+  drawRectPetArr = (petArr: PetArr, {boardSize, brickSize}: Config) => {
     this.clear();
 
     for (let x = 0; x < boardSize.width; x++) {
@@ -52,7 +52,7 @@ export class Playground {
       };
 
       for (let y = 0; y < boardSize.height; y++) {
-        const pet = petMap[`${x},${y}`];
+        const pet = petArr[getIndexFromXY(x, y)];
         const type = pet ? (isFish(pet) ? 'fish' : 'shark') : undefined;
 
         if (type === activeShape.type) {
@@ -74,12 +74,12 @@ export class Playground {
     }
   };
 
-  drawPetMap = (petMap: PetMap, {boardSize, brickSize}: Config) => {
+  drawPetArr = (petArr: PetArr, {boardSize, brickSize}: Config) => {
     this.clear();
 
     for (let x = 0; x < boardSize.width; x++) {
       for (let y = 0; y < boardSize.height; y++) {
-        const pet = petMap[`${x},${y}`];
+        const pet = petArr[getIndexFromXY(x, y)];
         const type = pet ? (isFish(pet) ? 'fish' : 'shark') : undefined;
 
         if (type) {

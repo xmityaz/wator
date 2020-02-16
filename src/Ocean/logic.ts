@@ -25,6 +25,14 @@ export const getIndexFromXY = (x: number, y: number) => {
   return (x << 8) ^ y;
 };
 
+const shuffleArr = <T>(arr: T[]): T[] => {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+};
+
 function getRandomEl(arr: any[]) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
@@ -160,13 +168,13 @@ export function processDay(petArr: PetArr, config: Config) {
     }
   });
 
-  fishPositions.forEach(position => {
+  shuffleArr(fishPositions).forEach(position => {
     const newPosition = processFishMove(petArr, position, config);
     (petArr[newPosition] as Pet).cyclesSinceReproduce++;
     processPetReproduce(petArr, position, newPosition, config);
   });
 
-  sharkPositions.forEach(position => {
+  shuffleArr(sharkPositions).forEach(position => {
     const newPosition = processSharkMove(petArr, position, config);
     if (newPosition) {
       (petArr[newPosition] as Pet).cyclesSinceReproduce++;

@@ -10,6 +10,13 @@ import wizardPageStyles from '../WizardPage/WizardPage.module.scss';
 import {shouldExit} from './exitConditionsLogic';
 import {PlayButton} from '../PlayButton/PlayButton';
 import {ResetButton} from '../ResetButton/ResetButton';
+import {
+  IS_SMALL_SCREEN,
+  MAX_HEIGHT,
+  SCROLL_MARGIN,
+  CONTROLS_WIDTH,
+  SMALL_SCREEN_MARGIN
+} from './Ocean.constants';
 
 export type OceanProps = {
   withControls: boolean;
@@ -24,10 +31,6 @@ export type OceanState = {
   initialized: boolean;
   config: Config;
 };
-
-const MAX_HEIGHT = 160;
-const CONTROLS_WIDTH = 255; // 215 width + 40 margin
-const SCROLL_MARGIN = 1;
 
 export class Ocean extends React.Component<OceanProps, OceanState> {
   private playground: Playground;
@@ -93,16 +96,18 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
 
   private getFittableSize = (): Size => {
     const {brickSize} = this.state.config;
-    const isSmallScreen = window.innerWidth < 420;
 
     const pageEl = document.getElementsByClassName(wizardPageStyles.root)[0];
     const wizEl = document.getElementsByClassName(wizardStyles.content)[0].lastElementChild as HTMLElement;
 
     const pageRect = pageEl.getBoundingClientRect();
     const wizRect = wizEl.getBoundingClientRect();
+
+    const heightBuffer = IS_SMALL_SCREEN && this.props.withControls ? SMALL_SCREEN_MARGIN : SCROLL_MARGIN;
     const controlsWidth =
-      !isSmallScreen && this.props.withControls ? Math.ceil(CONTROLS_WIDTH / brickSize.width) : 1; // 1 width as a buffer to avoid scroll
-    const heightBuffer = isSmallScreen && this.props.withControls ? 15 : SCROLL_MARGIN;
+      !IS_SMALL_SCREEN && this.props.withControls
+        ? Math.ceil(CONTROLS_WIDTH / brickSize.width)
+        : SCROLL_MARGIN;
 
     return {
       width: Math.floor(pageRect.width / brickSize.width) - controlsWidth,

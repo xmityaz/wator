@@ -20,12 +20,27 @@ export class Wizard extends React.Component<{}, WizardState> {
   private manyFishExit = () => this.setState({showManyFishNext: true});
   private doomedExit = () => this.setState({showDoomedNext: true});
 
+  private scrollableEl: HTMLElement;
+
+  private initRootEl = (el: HTMLDivElement | null) => {
+    if (el) {
+      const stepWizEl = el.lastChild;
+
+      this.scrollableEl = (stepWizEl as any).lastChild;
+    }
+  };
+
   private cleanState = () =>
     this.setState({
       showOneFishNext: false,
       showManyFishNext: false,
       showDoomedNext: false
     });
+
+  private onStepChange = () => {
+    this.cleanState();
+    this.scrollableEl.scrollTo({top: 0});
+  };
 
   constructor(props: {}) {
     super(props);
@@ -41,14 +56,14 @@ export class Wizard extends React.Component<{}, WizardState> {
     const {showOneFishNext, showManyFishNext, showDoomedNext} = this.state;
 
     return (
-      <div className={s.root}>
+      <div className={s.root} ref={this.initRootEl}>
         <header className={s.header}>Wator</header>
 
         <StepWizard
           className={s.content}
           nav={<Navigation />}
           isLazyMount={false}
-          onStepChange={this.cleanState}
+          onStepChange={this.onStepChange}
         >
           <WizardPage>
             <p>

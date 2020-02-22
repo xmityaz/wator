@@ -65,3 +65,14 @@
     margin-bottom: 8px;
   }
 }
+
+@media only screen and (max-width: 420px) {
+  .root {
+    flex-direction: column;
+  }
+
+  .controls {
+    margin: 20px 0;
+    width: 215px;
+  }
+}

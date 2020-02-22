@@ -93,17 +93,21 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
 
   private getFittableSize = (): Size => {
     const {brickSize} = this.state.config;
+    const isSmallScreen = window.innerWidth < 420;
+
     const pageEl = document.getElementsByClassName(wizardPageStyles.root)[0];
     const wizEl = document.getElementsByClassName(wizardStyles.content)[0].lastElementChild as HTMLElement;
 
     const pageRect = pageEl.getBoundingClientRect();
     const wizRect = wizEl.getBoundingClientRect();
-    const controlsWidth = this.props.withControls ? Math.ceil(CONTROLS_WIDTH / brickSize.width) : 1; // 1 width as a buffer to avoid scroll
+    const controlsWidth =
+      !isSmallScreen && this.props.withControls ? Math.ceil(CONTROLS_WIDTH / brickSize.width) : 1; // 1 width as a buffer to avoid scroll
+    const heightBuffer = isSmallScreen && this.props.withControls ? 15 : SCROLL_MARGIN;
 
     return {
       width: Math.floor(pageRect.width / brickSize.width) - controlsWidth,
       height:
-        Math.min(MAX_HEIGHT - brickSize.height, Math.floor(wizRect.height / brickSize.height)) - SCROLL_MARGIN
+        Math.min(MAX_HEIGHT - brickSize.height, Math.floor(wizRect.height / brickSize.height)) - heightBuffer
     };
   };
 

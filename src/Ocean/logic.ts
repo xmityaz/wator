@@ -137,7 +137,10 @@ function processSharkMove(petArr: PetArr, position: number, config: Config): num
 
 export function initializePetArr({startParams, boardSize, evolutionParams}: Config) {
   const petMap: PetArr = [];
-  const animalLength = startParams.startFishNumber + startParams.startSharkNumber;
+  const animalLength = Math.min(
+    startParams.startFishNumber + startParams.startSharkNumber,
+    boardSize.height * boardSize.width
+  );
   let counter = 0;
 
   while (counter < animalLength) {

@@ -8,6 +8,7 @@ import {Navigation} from '../Navigation/Navigation';
 import {Dave} from '../icons/Dave';
 import {Ed} from '../icons/Ed';
 import {NextButton} from '../NextButton/NextButton';
+import {WIZARD_ID, scrollWizard} from '../utils/dom-utils';
 
 export type WizardState = {
   showOneFishNext: boolean;
@@ -27,6 +28,13 @@ export class Wizard extends React.Component<{}, WizardState> {
       showDoomedNext: false
     });
 
+  private scrollWizPageToTop = () => scrollWizard(0);
+
+  private onStepChange = () => {
+    this.cleanState();
+    this.scrollWizPageToTop();
+  };
+
   constructor(props: {}) {
     super(props);
 
@@ -41,14 +49,14 @@ export class Wizard extends React.Component<{}, WizardState> {
     const {showOneFishNext, showManyFishNext, showDoomedNext} = this.state;
 
     return (
-      <div className={s.root}>
+      <div className={s.root} id={WIZARD_ID}>
         <header className={s.header}>Wator</header>
 
         <StepWizard
           className={s.content}
           nav={<Navigation />}
           isLazyMount={false}
-          onStepChange={this.cleanState}
+          onStepChange={this.onStepChange}
         >
           <WizardPage>
             <p>

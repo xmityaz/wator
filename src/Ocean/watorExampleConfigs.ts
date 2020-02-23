@@ -1,6 +1,5 @@
 import {Config} from './Ocean.types';
-
-const gameSpeed = 50;
+import {IS_SMALL_SCREEN} from './Ocean.constants';
 
 export const configOneFish: Config = {
   brickSize: {width: 40, height: 40},
@@ -37,7 +36,7 @@ export const configDoomed: Config = {
     sharkMaxEnergy: 35,
     gameSpeed: 80
   },
-  startParams: {startFishNumber: 200, startSharkNumber: 200},
+  startParams: {startFishNumber: IS_SMALL_SCREEN ? 100 : 200, startSharkNumber: IS_SMALL_SCREEN ? 80 : 200},
   exitConditions: ['overpopulation', 'extinction']
 };
 
@@ -48,7 +47,7 @@ export const configSandbox: Config = {
     fishReproducingRate: 100,
     sharkReproducingRate: 135,
     sharkMaxEnergy: 79,
-    gameSpeed
+    gameSpeed: 50
   },
   startParams: {startFishNumber: 2000, startSharkNumber: 2000},
   rectMode: true

@@ -47,6 +47,7 @@
 .controls {
   margin-left: 20px;
   width: 215px;
+  box-sizing: border-box;
 }
 
 .controlsButtons {
@@ -72,7 +73,12 @@
   }
 
   .controls {
-    margin: 20px 0;
-    width: 215px;
+    margin: 0;
+    padding: 20px;
+    width: 100%;
+  }
+
+  .controlsButtons {
+    justify-content: space-around;
   }
 }

@@ -8,6 +8,7 @@ import {Navigation} from '../Navigation/Navigation';
 import {Dave} from '../icons/Dave';
 import {Ed} from '../icons/Ed';
 import {NextButton} from '../NextButton/NextButton';
+import {WIZARD_ID, scrollWizard} from '../utils/dom-utils';
 
 export type WizardState = {
   showOneFishNext: boolean;
@@ -20,16 +21,6 @@ export class Wizard extends React.Component<{}, WizardState> {
   private manyFishExit = () => this.setState({showManyFishNext: true});
   private doomedExit = () => this.setState({showDoomedNext: true});
 
-  private scrollableEl: HTMLElement;
-
-  private initRootEl = (el: HTMLDivElement | null) => {
-    if (el) {
-      const stepWizEl = el.lastChild;
-
-      this.scrollableEl = (stepWizEl as any).lastChild;
-    }
-  };
-
   private cleanState = () =>
     this.setState({
       showOneFishNext: false,
@@ -37,9 +28,11 @@ export class Wizard extends React.Component<{}, WizardState> {
       showDoomedNext: false
     });
 
+  private scrollWizPageToTop = () => scrollWizard(0);
+
   private onStepChange = () => {
     this.cleanState();
-    this.scrollableEl.scrollTo({top: 0});
+    this.scrollWizPageToTop();
   };
 
   constructor(props: {}) {
@@ -56,7 +49,7 @@ export class Wizard extends React.Component<{}, WizardState> {
     const {showOneFishNext, showManyFishNext, showDoomedNext} = this.state;
 
     return (
-      <div className={s.root} ref={this.initRootEl}>
+      <div className={s.root} id={WIZARD_ID}>
         <header className={s.header}>Wator</header>
 
         <StepWizard

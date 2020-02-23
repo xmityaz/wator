@@ -10,6 +10,8 @@ import wizardPageStyles from '../WizardPage/WizardPage.module.scss';
 import {shouldExit} from './exitConditionsLogic';
 import {PlayButton} from '../PlayButton/PlayButton';
 import {ResetButton} from '../ResetButton/ResetButton';
+import {scrollWizard} from '../utils/dom-utils';
+import {ControlsButton} from '../ControlsButton/ControlsButton';
 import {
   IS_SMALL_SCREEN,
   MAX_HEIGHT,
@@ -116,6 +118,8 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
     };
   };
 
+  private scrollToControls = () => scrollWizard(400);
+
   pause = () => {
     this.setState({isRunning: false});
     clearInterval(this.gameLoop);
@@ -215,6 +219,7 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
             <div className={s.controlsButtons}>
               <PlayButton isPlaying={isRunning} onClick={this.onPlayButtonClick} />
               <ResetButton onClick={this.reset} />
+              {IS_SMALL_SCREEN && <ControlsButton onClick={this.scrollToControls} />}
             </div>
 
             <StartControls

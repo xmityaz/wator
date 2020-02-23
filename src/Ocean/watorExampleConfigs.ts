@@ -45,7 +45,7 @@ export const configSandbox: Config = {
   boardSize: {width: 185, height: 100},
   evolutionParams: {
     fishReproducingRate: 100,
-    sharkReproducingRate: 135,
+    sharkReproducingRate: 90,
     sharkMaxEnergy: 79,
     gameSpeed: 50
   },

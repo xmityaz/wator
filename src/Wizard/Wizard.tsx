@@ -164,6 +164,15 @@ export class Wizard extends React.Component<{}, WizardState> {
 
           <WizardPage ocean={true}>
             <Ocean withControls={true} initialConfig={configSandbox} />
+            <NextButton>I've played enough</NextButton>
+          </WizardPage>
+
+          <WizardPage>
+            <p>
+              Now that you've played around with a system of just 2 components, imagine how hard it would be to keep the balance in something much bigger and more complex. Something like our own planet. With ecosystems like rainforests where hundreds of species interact with each other orchestrated by global climate. Imagine how effects from things like global warming can cascade through interconnected layers of such living systems wreaking havoc on them. Play safe, trust science, keep the balance.
+            </p>
+
+            <img src="earth.jpeg" alt="The Earth" style={{width: '100%'}}/>
           </WizardPage>
         </StepWizard>
       </div>

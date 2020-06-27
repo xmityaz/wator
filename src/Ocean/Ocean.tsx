@@ -19,6 +19,7 @@ import {
   CONTROLS_WIDTH,
   SMALL_SCREEN_MARGIN
 } from './Ocean.constants';
+import {NextButton} from '../NextButton/NextButton';
 
 export type OceanProps = {
   withControls: boolean;
@@ -236,6 +237,8 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
               values={this.state.config.evolutionParams}
               onChange={this.setEvolutionParams}
             />
+
+            <NextButton>I've played enough</NextButton>
           </div>
         )}
       </div>

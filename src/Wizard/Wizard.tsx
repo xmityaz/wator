@@ -164,7 +164,6 @@ export class Wizard extends React.Component<{}, WizardState> {
 
           <WizardPage ocean={true}>
             <Ocean withControls={true} initialConfig={configSandbox} />
-            <NextButton>I've played enough</NextButton>
           </WizardPage>
 
           <WizardPage>

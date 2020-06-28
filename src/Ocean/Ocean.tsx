@@ -26,6 +26,7 @@ export type OceanProps = {
   initialConfig: Config;
   isActive?: boolean;
   onExit?: () => void;
+  nextStep?: () => void;
 };
 
 export type OceanState = {
@@ -238,7 +239,7 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
               onChange={this.setEvolutionParams}
             />
 
-            <NextButton>I've played enough</NextButton>
+            <NextButton nextStep={this.props.nextStep}>I've played enough</NextButton>
           </div>
         )}
       </div>

@@ -80,7 +80,7 @@ export class Wizard extends React.Component<{}, WizardState> {
           <WizardPage>
             <p>
               First he created a small planet on its orbit. He knew all life on Earth began in water so he
-              filled his planet with a crystal blue ocean that covered every bit of the rocky land. The he
+              filled his planet with a crystal blue ocean that covered every bit of the rocky land. Then he
               filled his ocean with endless tiny weed so that no life ever dies from hunger. And then he
               created Dave, a fish.
             </p>

@@ -17,7 +17,7 @@ import {
   MAX_HEIGHT,
   SCROLL_MARGIN,
   CONTROLS_WIDTH,
-  SMALL_SCREEN_MARGIN
+  SMALL_SCREEN_MARGIN,
 } from './Ocean.constants';
 import {NextButton} from '../NextButton/NextButton';
 
@@ -33,6 +33,7 @@ export type OceanState = {
   exitProcessed: boolean;
   isRunning: boolean;
   initialized: boolean;
+  showWithControlsNext: boolean;
   config: Config;
 };
 
@@ -44,6 +45,7 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
 
   private gameLoop: any;
   private stepsCounter = 0;
+  private resetCounter = 0;
 
   private canvas: HTMLCanvasElement;
 
@@ -57,13 +59,25 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
 
   private processExitConditions = () => {
     if (
-      this.props.onExit &&
       this.state.config.exitConditions &&
       !this.state.exitProcessed &&
-      shouldExit({stepsCounter: this.stepsCounter, petArr: this.petArr, config: this.state.config})
+      shouldExit({
+        stepsCounter: this.stepsCounter,
+        petArr: this.petArr,
+        config: this.state.config,
+      })
     ) {
-      this.props.onExit();
+      this.props.onExit && this.props.onExit();
       this.setState({exitProcessed: true});
+
+      if (this.props.withControls) {
+        this.pause();
+        this.setState({showWithControlsNext: true});
+      }
+    }
+
+    if (this.resetCounter > 2 && this.props.withControls) {
+      this.setState({showWithControlsNext: true});
     }
   };
 
@@ -82,12 +96,15 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
     if (!this.state.initialized) {
       this.onStart();
     } else {
+      if (this.state.exitProcessed) {
+        this.reset();
+      }
       this.state.isRunning ? this.pause() : this.play();
     }
   };
 
   private onStart = () => {
-    this.setState({exitProcessed: false, initialized: true});
+    this.setState({initialized: true});
     this.stepsCounter = 0;
 
     this.petArr = initializePetArr(this.state.config);
@@ -102,12 +119,14 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
     const {brickSize} = this.state.config;
 
     const pageEl = document.getElementsByClassName(wizardPageStyles.root)[0];
-    const wizEl = document.getElementsByClassName(wizardStyles.content)[0].lastElementChild as HTMLElement;
+    const wizEl = document.getElementsByClassName(wizardStyles.content)[0]
+      .lastElementChild as HTMLElement;
 
     const pageRect = pageEl.getBoundingClientRect();
     const wizRect = wizEl.getBoundingClientRect();
 
-    const heightBuffer = IS_SMALL_SCREEN && this.props.withControls ? SMALL_SCREEN_MARGIN : SCROLL_MARGIN;
+    const heightBuffer =
+      IS_SMALL_SCREEN && this.props.withControls ? SMALL_SCREEN_MARGIN : SCROLL_MARGIN;
     const controlsWidth =
       !IS_SMALL_SCREEN && this.props.withControls
         ? Math.ceil(CONTROLS_WIDTH / brickSize.width)
@@ -116,7 +135,8 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
     return {
       width: Math.floor(pageRect.width / brickSize.width) - controlsWidth,
       height:
-        Math.min(MAX_HEIGHT - brickSize.height, Math.floor(wizRect.height / brickSize.height)) - heightBuffer
+        Math.min(MAX_HEIGHT - brickSize.height, Math.floor(wizRect.height / brickSize.height)) -
+        heightBuffer,
     };
   };
 
@@ -135,13 +155,14 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
   reset = ({startParams, evolutionParams}: Partial<Config> = {}) => {
     this.setConfig({
       startParams: {...this.state.config.startParams, ...startParams},
-      evolutionParams: {...this.state.config.evolutionParams, ...evolutionParams}
+      evolutionParams: {...this.state.config.evolutionParams, ...evolutionParams},
     });
 
     this.playground = new Playground(this.state.config, this.canvas);
 
     this.setState({exitProcessed: false, initialized: true});
     this.stepsCounter = 0;
+    this.resetCounter++;
 
     this.petArr = initializePetArr(this.state.config);
 
@@ -155,7 +176,7 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
 
   setEvolutionParams = (evolutionParams: Partial<EvolutionParams>) => {
     this.setConfig({
-      evolutionParams: {...this.state.config.evolutionParams, ...evolutionParams}
+      evolutionParams: {...this.state.config.evolutionParams, ...evolutionParams},
     });
 
     if (this.state.isRunning) {
@@ -166,7 +187,7 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
 
   setStartParams = (startParams: Partial<StartParams>) => {
     this.setConfig({
-      startParams: {...this.state.config.startParams, ...startParams}
+      startParams: {...this.state.config.startParams, ...startParams},
     });
   };
 
@@ -176,8 +197,9 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
     this.state = {
       isRunning: false,
       exitProcessed: false,
+      showWithControlsNext: false,
       initialized: false,
-      config: this.props.initialConfig
+      config: this.props.initialConfig,
     };
   }
 
@@ -196,7 +218,7 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
 
   render() {
     const {withControls, isActive} = this.props;
-    const {isRunning, config, exitProcessed} = this.state;
+    const {isRunning, config, exitProcessed, showWithControlsNext} = this.state;
 
     return (
       <div className={s.root}>
@@ -213,7 +235,7 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
             </div>
           )}
 
-          {exitProcessed && <div className={s.exitOverlay} />}
+          {exitProcessed && !withControls && <div className={s.exitOverlay} />}
         </div>
 
         {withControls && (
@@ -236,7 +258,9 @@ export class Ocean extends React.Component<OceanProps, OceanState> {
               onChange={this.setEvolutionParams}
             />
 
-            <NextButton nextStep={this.props.nextStep}>I've played enough</NextButton>
+            <NextButton nextStep={this.props.nextStep} className={showWithControlsNext ? null : s.hidden}>
+              I've played enough
+            </NextButton>
           </div>
         )}
       </div>

@@ -50,5 +50,6 @@ export const configSandbox: Config = {
     gameSpeed: 50
   },
   startParams: {startFishNumber: 2000, startSharkNumber: 2000},
-  rectMode: true
+  rectMode: true,
+  exitConditions: ['overpopulation', 'extinction']
 };

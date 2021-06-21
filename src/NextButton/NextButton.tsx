@@ -5,6 +5,7 @@ export type NextButtonProps = {
   nextStep?: () => void;
   forOcean?: boolean;
   children: string;
+  className?: string | null;
 };
 
 export type NextButtonState = {
@@ -13,7 +14,7 @@ export type NextButtonState = {
 
 export class NextButton extends React.Component<NextButtonProps, NextButtonState> {
   state = {
-    hovered: false
+    hovered: false,
   };
 
   private onMouseEnter = () => {
@@ -25,10 +26,11 @@ export class NextButton extends React.Component<NextButtonProps, NextButtonState
   };
 
   render() {
-    const {nextStep, forOcean, children} = this.props;
+    const {nextStep, forOcean, children, className} = this.props;
     const {hovered} = this.state;
 
-    const rootClassName = s.root + (forOcean ? ` ${s.forOcean}` : '');
+    const rootClassName =
+      s.root + (forOcean ? ` ${s.forOcean}` : '') + (className ? ` ${className}` : '');
     const buttonClassName = s.button + (hovered ? ` ${s.in}` : '');
 
     return (

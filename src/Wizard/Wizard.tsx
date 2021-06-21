@@ -155,7 +155,7 @@ export class Wizard extends React.Component<{}, WizardState> {
           <WizardPage>
             <p>
               Something was not quite right. This world was dead again. Sharks ate all the fish and died of
-              hunger. He thought that he could fix it by making Ed breed slowly.
+              hunger.
             </p>
 
             <p>Now Josh was faced with an ultimate challenge: how to strike the balance.</p>
